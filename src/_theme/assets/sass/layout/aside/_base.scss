@@ -1,0 +1,103 @@
+//
+// Aside Default
+//
+
+// General mode(all devices)
+.aside {
+  display: flex;
+  flex-direction: column;
+  box-shadow: get($aside-config, box-shadow);
+  background-color: get($aside-config, bg-color);
+  padding: 0;
+
+  // Aside toolbar
+  .aside-toolbar {
+    border-bottom: 1px dashed get($aside-config, border-color);
+    padding: 0 get($aside-config, padding-x);
+
+    .btn.btn-custom {
+      background-color: if(isDarkMode(), $gray-300, #f0e8d9);
+
+      .svg-icon {
+        @include svg-icon-color(if(isDarkMode(), $gray-700, $gray-500));
+      }
+
+      &:hover {
+        background-color: if(isDarkMode(), $gray-200, darken(#f0e8d9, 2%));
+      }
+    }
+  }
+
+  // Aside footer
+  .aside-footer {
+    padding: 0 get($aside-config, padding-x);
+  }
+
+  // Scrollbar
+  .hover-scroll-overlay-y {
+    --scrollbar-space: 0.4rem;
+
+    @include scrollbar-color(
+      get($aside-config, scrollbar-color),
+      get($aside-config, scrollbar-hover-color)
+    );
+  }
+
+  // Custom button
+  .btn-custom {
+    $btn-bg-color: if(isDarkMode(), $gray-100, #f0e8d9);
+    $btn-bg-color-active: if(isDarkMode(), $gray-100, darken(#f0e8d9, 3%));
+
+    @include button-custom-variant(
+      $color: $gray-400,
+      $icon-color: $gray-400,
+      $border-color: null,
+      $bg-color: $btn-bg-color,
+      $color-active: $gray-600,
+      $icon-color-active: $gray-600,
+      $border-color-active: null,
+      $bg-color-active: $btn-bg-color-active
+    );
+  }
+
+  // Custom select
+  .form-select-custom {
+    background-color: if(isDarkMode(), $gray-100, $white);
+  }
+}
+
+// Desktop mode
+@include media-breakpoint-up(lg) {
+  .aside {
+    position: fixed;
+    top: get($header-config, height, desktop);
+    left: 0;
+    bottom: 0;
+    z-index: get($aside-config, z-index);
+    overflow: hidden;
+    width: get($aside-config, width);
+    transition: left get($aside-config, transition-speed) ease;
+
+    // Aside menu
+    .aside-menu {
+      width: get($aside-config, width);
+    }
+  }
+}
+
+// Tablet & mobile modes
+@include media-breakpoint-down(lg) {
+  .aside {
+    display: none;
+
+    // Logo
+    .aside-logo {
+      display: none;
+    }
+
+    // Aside select
+    .aside-select {
+      border-top: none;
+    }
+  }
+}

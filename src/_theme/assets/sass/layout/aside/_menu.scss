@@ -1,0 +1,137 @@
+//
+// Menu
+//
+
+// Aside menu
+.aside-menu {
+  .menu {
+    // Link padding x
+    @include menu-link-padding-x(get($aside-config, menu-padding-x));
+
+    // Menu indention
+    @include menu-link-indention(
+      get($aside-config, menu-indention),
+      get($aside-config, menu-padding-x)
+    );
+
+    // Item
+    .menu-item {
+      @include menu-link-default-state(
+        $title-color: if(isDarkMode(), #9899ac, $gray-700),
+        $icon-color: if(isDarkMode(), #494b74, $gray-500),
+        $bullet-color: $gray-400,
+        $arrow-color: $gray-500,
+        $bg-color: null,
+        $all-links: true
+      );
+      @include menu-link-hover-state(
+        $title-color: $primary,
+        $icon-color: $primary,
+        $bullet-color: $primary,
+        $arrow-color: $primary,
+        $bg-color: transparent,
+        $all-links: true
+      );
+      @include menu-link-here-state(
+        $title-color: $primary,
+        $icon-color: $primary,
+        $bullet-color: $primary,
+        $arrow-color: $primary,
+        $bg-color: transparent,
+        $all-links: true
+      );
+      @include menu-link-show-state(
+        $title-color: if(isDarkMode(), $white, #676153),
+        $icon-color: $gray-400,
+        $bullet-color: $gray-400,
+        $arrow-color: $gray-400,
+        $bg-color: transparent,
+        $all-links: true
+      );
+      @include menu-link-active-state(
+        $title-color: $white,
+        $icon-color: $white,
+        $bullet-color: $white,
+        $arrow-color: $white,
+        $bg-color: $primary,
+        $all-links: true
+      );
+    }
+
+    // Separator
+    .separator {
+      border-bottom: 1px dashed #2d2d43;
+    }
+
+    // Menu item
+    > .menu-item {
+      padding: 0 1.4rem;
+
+      > .menu-link {
+        margin-top: 0.4rem;
+        margin-bottom: 0.4rem;
+
+        .menu-title {
+          font-size: 1.15rem;
+        }
+      }
+
+      &.menu-accordion {
+        &.show,
+        &.showing {
+          > .menu-link {
+            > .menu-icon {
+              .svg-icon {
+                @include menu-link-arrow-rotate(90deg, -90deg);
+              }
+            }
+          }
+        }
+
+        &.hiding {
+          > .menu-link {
+            > .menu-icon {
+              .svg-icon {
+                @include menu-link-arrow-rotate(0, 0);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Item
+  .menu-item {
+    padding: 0;
+
+    // Menu Link
+    .menu-link {
+      padding-top: 0.65rem;
+      padding-bottom: 0.65rem;
+      border-radius: $border-radius;
+    }
+
+    // Menu sub
+    .menu-sub {
+      padding-left: 0.8rem;
+
+      .menu-link {
+        .menu-title {
+          color: if(isDarkMode(), #6d6d80, #676153);
+        }
+      }
+    }
+
+    // Icon
+    .menu-icon {
+      justify-content: flex-start;
+      margin-right: 0;
+    }
+
+    // Separator
+    .separator {
+      border-bottom-color: get($aside-config, border-color);
+    }
+  }
+}

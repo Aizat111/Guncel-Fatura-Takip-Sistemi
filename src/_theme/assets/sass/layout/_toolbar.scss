@@ -1,0 +1,32 @@
+//
+// toolbar
+//
+
+// General mode
+.toolbar {
+  display: flex;
+  align-items: center;
+}
+
+// Desktop mode
+@include media-breakpoint-up(lg) {
+  .toolbar {
+    // Fixed header & fixed toolbar modes
+    .toolbar-fixed[data-kt-sticky-toolbar='on'] &,
+    .header-fixed.toolbar-fixed & {
+      position: fixed;
+      padding: 0 !important;
+      height: get($toolbar-config, height);
+      z-index: get($toolbar-config, z-index);
+      left: get($aside-config, width);
+      right: 0;
+      top: 0;
+      box-shadow: get($toolbar-config, box-shadow);
+      background-color: get($toolbar-config, bg-color);
+    }
+
+    .header-fixed.toolbar-fixed & {
+      top: get($header-config, height, desktop);
+    }
+  }
+}

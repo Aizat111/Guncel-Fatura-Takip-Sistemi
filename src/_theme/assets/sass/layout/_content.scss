@@ -1,0 +1,21 @@
+//
+// Content
+//
+
+// Desktop mode
+@include media-breakpoint-up(lg) {
+  .content {
+    padding: 0 0 get($content-spacing, desktop) 0;
+
+    .header-fixed & {
+      padding-top: get($content-spacing, desktop);
+    }
+  }
+}
+
+// Tablet & mobile modes
+@include media-breakpoint-down(lg) {
+  .content {
+    padding: 0 0 get($content-spacing, tablet-and-mobile) 0;
+  }
+}
