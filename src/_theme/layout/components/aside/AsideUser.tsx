@@ -1,53 +1,71 @@
 /* eslint-disable react/jsx-no-target-blank */
 import React from 'react'
-import {useDispatch} from 'react-redux'
+import {Dropdown, NavDropdown} from 'react-bootstrap'
+import {shallowEqual, useDispatch, useSelector} from 'react-redux'
+import {UserModel} from '../../../../app/modules/auth/models/UserModel'
 import * as auth from '../../../../app/modules/auth/redux/AuthRedux'
+import {RootState} from '../../../../setup'
 import {KTSVG, toAbsoluteUrl} from '../../../helpers'
 import {HeaderUserMenu} from '../../../partials'
 
 const AsideUser: React.FC = () => {
+  const user: UserModel = useSelector<RootState>(({auth}) => auth.user, shallowEqual) as UserModel
   const dispatch = useDispatch()
   const logout = () => {
     dispatch(auth.actions.logout())
   }
 
   return (
-    <div className='aside-user d-flex align-items-sm-center justify-content-center py-5'>
-      <div className='me-5'>
-        <div
-          className='symbol symbol-40px cursor-pointer'
-          data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
-          data-kt-menu-overflow='false'
-          data-kt-menu-placement='bottom-start'
-        >
-          <img src={toAbsoluteUrl('/media/avatars/300-1.jpg')} alt='' />
-        </div>
-        <HeaderUserMenu />
-      </div>
-
-      <div className='flex-row-fluid flex-wrap'>
-        <div className='d-flex align-items-center flex-stack'>
-          <div className='me-2'>
-            {/* eslint-disable-next-line */}
-            <a href='#' className='text-gray-800 text-hover-primary fs-6 fw-bold lh-0'>
-              Paul Melone
-            </a>
-
-            <span className='text-gray-400 fw-bold d-block fs-8'>Python Dev</span>
-          </div>
-
-          {/* eslint-disable-next-line */}
-          <button
-            onClick={() => {
-              logout()
-            }}
-            className='btn btn-icon btn-active-color-primary me-n4'
+    <div style={{height: '200px'}} className='py-5'>
+      <div className='d-flex flex-column align-items-center justify-content-center'>
+        <div className='me-5 text-center' style={{borderRadius: '50%'}}>
+          <div
+            className='symbol symbol-40px cursor-pointer'
+            data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
+            data-kt-menu-overflow='false'
+            data-kt-menu-placement='bottom-start'
+            style={{borderRadius: '50%'}}
           >
-            <KTSVG
-              path='/media/icons/duotune/arrows/arr076.svg'
-              className='svg-icon-2 svg-icon-gray-400'
+            {/* {user.avatar ? (
+              <img
+                style={{height: '100px', width: 'auto', borderRadius: '50%'}}
+                src={user.avatar}
+                className='rounded'
+                alt=''
+              />
+            ) : (
+              <div className='symbol-label bg-primary text-inverse-primary fw-bolder fs-1 h-100px w-100px rounded'>
+                {user.name?.substring(0, 1)}
+              </div>
+            )} */}
+            <img 
+            style={{height: '130px', width: 'auto', borderRadius: '50%'}}
+            src='https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=800'
+            className='rounded'
+            alt='profil_photo'
             />
-          </button>
+          </div>
+          {/* <HeaderUserMenu /> */}
+        </div>
+        <div className='mt-4'>
+          <div className='d-flex text-center align-items-center flex-stack'>
+            <div className='me-2'>
+              {/* eslint-disable-next-line */}
+              <a
+                href='#'
+                className=' text-hover-danger fs-2 lh-0 fw-bolder text-white-800 text-light'
+              >
+                {/* {user.name} */}
+                Sena Yılmaz
+              </a>
+              <span  style={{background: '#377c8b'}} className='text-white-600 fw-bold d-block mt-2 fs-5 badge '>
+                {' '}
+                {/* {user.assignment ? user.assignment.name : ''}{' '} */}
+                Kullanıcı
+              </span>
+             
+            </div>
+          </div>
         </div>
       </div>
     </div>

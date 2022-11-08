@@ -5,54 +5,55 @@ import {KTSVG} from '../../../helpers'
 export function AsideMenuMain() {
   return (
     <>
-      <AsideMenuItemWithSub
+      <AsideMenuItem
         to='/dashboards'
-        title='Dashboards'
+        title='Anasayfa'
         fontIcon='bi-chat-left'
         icon='/media/icons/duotune/arrows/arr001.svg'
       >
-        <AsideMenuItem to='/dashboards/default' title='Default' hasBullet={true} />
+        {/* <AsideMenuItem to='/dashboards/default' title='Default' hasBullet={true} />
         <AsideMenuItem to='/dashboards/marketing' title='Marketing' hasBullet={true} />
         <AsideMenuItem to='/dashboards/social' title='Social' hasBullet={true} />
-        <AsideMenuItem to='/dashboards/eCommerce' title='eCommerce' hasBullet={true} />
-      </AsideMenuItemWithSub>
+        <AsideMenuItem to='/dashboards/eCommerce' title='eCommerce' hasBullet={true} /> */}
+      </AsideMenuItem>
       <AsideMenuItemWithSub
         to='/crafted/pages'
-        title='Pages'
+        title='Faturalar'
         fontIcon='bi-archive'
         icon='/media/icons/duotune/arrows/arr001.svg'
       >
-        <AsideMenuItemWithSub to='/crafted/pages/profile' title='Profile' hasBullet={true}>
-          <AsideMenuItem to='/crafted/pages/profile/overview' title='Overview' hasBullet={true} />
-          <AsideMenuItem to='/crafted/pages/profile/projects' title='Projects' hasBullet={true} />
-          <AsideMenuItem to='/crafted/pages/profile/campaigns' title='Campaigns' hasBullet={true} />
-          <AsideMenuItem to='/crafted/pages/profile/documents' title='Documents' hasBullet={true} />
-          <AsideMenuItem
+        <AsideMenuItem to='/crafted/pages/profile/su' title='Su' hasBullet={true}/>
+          <AsideMenuItem to='/crafted/pages/profile/overview' title='Elektrik' hasBullet={true} />
+          <AsideMenuItem to='/crafted/pages/profile/projects' title='Gaz' hasBullet={true} />
+          {/* <AsideMenuItem to='/crafted/pages/profile/campaigns' title='Campaigns' hasBullet={true} />
+          <AsideMenuItem to='/crafted/pages/profile/documents' title='Documents' hasBullet={true} /> */}
+          {/* <AsideMenuItem
             to='/crafted/pages/profile/connections'
             title='Connections'
             hasBullet={true}
-          />
-        </AsideMenuItemWithSub>
+          /> */}
+        {/* </AsideMenuItemWithSub> */}
 
-        <AsideMenuItemWithSub to='/crafted/pages/wizards' title='Wizards' hasBullet={true}>
+        {/* <AsideMenuItemWithSub to='/crafted/pages/wizards' title='Wizards' hasBullet={true}>
           <AsideMenuItem
             to='/crafted/pages/wizards/horizontal'
             title='Horizontal'
             hasBullet={true}
           />
           <AsideMenuItem to='/crafted/pages/wizards/vertical' title='Vertical' hasBullet={true} />
-        </AsideMenuItemWithSub>
+        </AsideMenuItemWithSub> */}
       </AsideMenuItemWithSub>
       <AsideMenuItemWithSub
         to='/crafted/accounts'
-        title='Accounts'
+        title='Geçmiş Faturalar'
         icon='/media/icons/duotune/arrows/arr001.svg'
         fontIcon='bi-person'
       >
-        <AsideMenuItem to='/crafted/account/overview' title='Overview' hasBullet={true} />
-        <AsideMenuItem to='/crafted/account/settings' title='Settings' hasBullet={true} />
+        <AsideMenuItem to='/crafted/account/overview' title='Su' hasBullet={true} />
+        <AsideMenuItem to='/crafted/account/settings' title='Elektrik' hasBullet={true} />
+        <AsideMenuItem to='/crafted/account/gaz' title='Gaz' hasBullet={true} />
       </AsideMenuItemWithSub>
-      <AsideMenuItemWithSub
+      {/* <AsideMenuItemWithSub
         to='/error'
         title='Errors'
         fontIcon='bi-sticky'
@@ -60,8 +61,12 @@ export function AsideMenuMain() {
       >
         <AsideMenuItem to='/error/404' title='Error 404' hasBullet={true} />
         <AsideMenuItem to='/error/500' title='Error 500' hasBullet={true} />
-      </AsideMenuItemWithSub>
-      <AsideMenuItemWithSub
+      </AsideMenuItemWithSub> */}
+        <AsideMenuItem to='/error/405' title='Profil' icon='/media/icons/duotune/arrows/arr001.svg'
+        fontIcon='bi-person'/>
+      <AsideMenuItem to='/error/404' title='Cüzdan' icon='/media/icons/duotune/arrows/arr001.svg'
+        fontIcon='bi-person'/>
+      {/* <AsideMenuItemWithSub
         to='/apps/chat'
         title='Chat'
         fontIcon='bi-chat-left'
@@ -70,21 +75,21 @@ export function AsideMenuMain() {
         <AsideMenuItem to='/apps/chat/private-chat' title='Private Chat' hasBullet={true} />
         <AsideMenuItem to='/apps/chat/group-chat' title='Group Chart' hasBullet={true} />
         <AsideMenuItem to='/apps/chat/drawer-chat' title='Drawer Chart' hasBullet={true} />
-      </AsideMenuItemWithSub>
-      <AsideMenuItem
+      </AsideMenuItemWithSub> */}
+      {/* <AsideMenuItem
         to='/builder'
         icon='/media/icons/duotune/arrows/arr001.svg'
         title='Layout Builder'
         fontIcon='bi-layers'
-      />
-      <AsideMenuItem
+      /> */}
+      {/* <AsideMenuItem
         to='/apps/user-management/'
         icon='/media/icons/duotune/arrows/arr001.svg'
         title='User Management'
         fontIcon='bi-layers'
-      />
+      /> */}
 
-      <div className='menu-item'>
+      {/* <div className='menu-item'>
         <div className='menu-content'>
           <div className='separator separator-dashed mx-n10'></div>
         </div>
@@ -115,7 +120,7 @@ export function AsideMenuMain() {
           </span>
           <span className='menu-title'>Changelog</span>
         </a>
-      </div>
+      </div> */}
     </>
   )
 }

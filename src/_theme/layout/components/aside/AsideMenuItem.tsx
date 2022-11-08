@@ -39,7 +39,7 @@ const AsideMenuItem: React.FC<Props> = ({
             <KTSVG path={icon} className='svg-icon svg-icon-5' />
           </span>
         )}
-        {fontIcon && aside.menuIcon === 'font' && <i className={clsx('bi fs-3', fontIcon)}></i>}
+        {fontIcon && aside.menuIcon === 'font' && <i className={clsx('bi fs-2', fontIcon)}></i>}
         <span className='menu-title'>{title}</span>
       </Link>
       {children}

@@ -17,19 +17,20 @@
     // Item
     .menu-item {
       @include menu-link-default-state(
-        $title-color: if(isDarkMode(), #9899ac, $gray-700),
-        $icon-color: if(isDarkMode(), #494b74, $gray-500),
+        // $title-color: if(isDarkMode(), #9899ac, $gray-700),
+        $title-color:$white,
+        $icon-color: $white,
         $bullet-color: $gray-400,
         $arrow-color: $gray-500,
         $bg-color: null,
         $all-links: true
       );
       @include menu-link-hover-state(
-        $title-color: $primary,
-        $icon-color: $primary,
+        $title-color: $white,
+        $icon-color: $white,
         $bullet-color: $primary,
         $arrow-color: $primary,
-        $bg-color: transparent,
+        $bg-color: #377c8b,
         $all-links: true
       );
       @include menu-link-here-state(
@@ -53,7 +54,7 @@
         $icon-color: $white,
         $bullet-color: $white,
         $arrow-color: $white,
-        $bg-color: $primary,
+        $bg-color:#377c8b,
         $all-links: true
       );
     }
