@@ -1,146 +1,95 @@
 import {FC, useEffect, useRef} from 'react'
+import Chart from 'react-apexcharts'
 
 import ApexCharts, {ApexOptions} from 'apexcharts'
-import { KTSVG } from '../../../_theme/helpers'
+import { bottom } from '@popperjs/core'
 
-import { getCSSVariableValue } from '../../../_theme/assets/ts/_utils'
-import { Dropdown2 } from '../../../_theme/partials'
 
 
 type Props = {
   className: string
+
 }
 
 export const ChartsWidgetCompare: FC<Props> = ({className}) => {
   const chartRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
-    if (!chartRef.current) {
-      return
-    }
 
-    const chart = new ApexCharts(chartRef.current, chartOptions())
-    if (chart) {
-      chart.render()
-    }
+  }, [])
+  const chart1 = {
+    labels: ['Su','Elektrik','Gaz'],
+    dataLabels: {
+      enabled: true,
+  
+    },
+    fill:{
+      colors:['#4fc9da', '#e8c445', '#b8d935']
+    },
+    colors:['#4fc9da', '#e8c445', '#b8d935'],
+    legend: {
+      show: true,
+      position:  bottom,
+      harizontalAlign: 'center',
+      fontSize: '15rem',
+      floating: false,
+      itemMargin: {
+        horizontal: 5,
+        vertical: 0,
+      },
+    },
 
-    return () => {
-      if (chart) {
-        chart.destroy()
-      }
-    }
-  }, [chartRef])
-
+    tooltip: {
+      style: {
+        fontSize: '12px',
+      },
+      y: {
+        formatter: function (val: any) {
+          return val.toLocaleString() + 'TL'
+        },
+      },
+    },
+  }
   return (
-    <div className={`card card-flush ${className}`}>
-      {/* begin::Header */}
-      <div className='card-header pt-5'>
-        {/* begin::Title */}
-        <h3 className='card-title align-items-start flex-column'>
-          <span className='card-label fw-bolder text-dark'>Fatura Kullanımı</span>
-          <span className='text-gray-400 pt-2 fw-bold fs-6'>Ay içinde ne kadar kullandınız</span>
-        </h3>
-        {/* end::Title */}
-        {/* begin::Toolbar */}
-        <div className='card-toolbar'>
-          {/* begin::Menu */}
-          <button
-            className='btn btn-icon btn-color-gray-400 btn-active-color-primary mt-n2 me-n2'
-            data-kt-menu-trigger='click'
-            data-kt-menu-placement='bottom-end'
-            data-kt-menu-overflow='true'
-          >
-            <KTSVG
-              path='/media/icons/duotune/general/gen023.svg'
-              className='svg-icon-1 svg-icon-gray-300 me-n1'
-            />
-          </button>
-          <Dropdown2 />
-          {/* end::Menu */}
+    <div className='card h-xl-100 overflow-hidden' style={{overflow:'hidden'}}>
+    <div className='card-body p-5 overflow-hidden'>
+      <div className='w-100 d-flex justify-content-between'>
+    
+        <div>
+     
+            <div className='fs-2hx fw-bolder'>
+              1000
+              <span className='fs-2'> ₺</span>
+            </div>
+         
+          {/* <div className='fs-2hx fw-bolder'>
+                  {totalCount} <span className='fs-2'>adet</span>
+                </div> */}
+          <div className='fs-5 fw-bold text-gray-400 mb-7'>Bu Ayın Toplam Faturası</div>
         </div>
-        {/* end::Toolbar */}
+     
+        <div
+      
+        >
+          <span className='btn btn-icon btn-light btn-active-color-primary mt-n2 me-n3  d-inline-flex '>
+           
+          </span>
+        </div>
       </div>
-      {/* end::Header */}
-      {/* begin::Body */}
-      <div className='card-body pt-5 ps-6'>
-        <div ref={chartRef} className='min-h-auto'></div>
+
+      <div className='d-flex justify-content-center w-100 h-100'>
+        <Chart
+          options={chart1}
+          series={[200,300,500]}
+          // [data[0].total_issues,data[1].total_issues,data[2].total_issues]}
+          type='donut'
+          height={'320px'}
+        />
       </div>
-      {/* end::Body */}
+
     </div>
+</div>
   )
 }
 
-const chartOptions = (): ApexOptions => {
-  const borderColor = getCSSVariableValue('--bs-border-dashed-color')
 
-  return {
-    series: [
-      {
-        data: [150, 120, 600],
-      },
-    ],
-    chart: {
-      type: 'bar',
-      height: 350,
-      toolbar: {
-        show: false,
-      },
-    },
-    plotOptions: {
-      bar: {
-        borderRadius: 4,
-        horizontal: true,
-        distributed: true,
-        barHeight: '23',
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    legend: {
-      show: false,
-    },
-    colors: ['#3E97FF', '#F1416C', '#50CD89'],
-    xaxis: {
-      categories: ['Su', 'Elektrik', 'Gaz'],
-      labels: {
-        formatter: function (val) {
-          return val + 'TL'
-        },
-        style: {
-          colors: getCSSVariableValue('--bs-gray-400'),
-          fontSize: '14px',
-          fontWeight: '600',
-        },
-      },
-      axisBorder: {
-        show: false,
-      },
-    },
-    yaxis: {
-      labels: {
-        style: {
-          colors: getCSSVariableValue('--bs-gray-800'),
-          fontSize: '14px',
-          fontWeight: '600',
-        },
-        offsetY: 2,
-        align: 'left',
-      },
-    },
-    grid: {
-      borderColor: borderColor,
-      xaxis: {
-        lines: {
-          show: true,
-        },
-      },
-      yaxis: {
-        lines: {
-          show: false,
-        },
-      },
-      strokeDashArray: 4,
-    },
-  }
-}
