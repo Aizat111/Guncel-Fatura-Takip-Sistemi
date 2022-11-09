@@ -5,6 +5,7 @@ import TopBarProgress from 'react-topbar-progress-indicator'
 import {DashboardsPageWrapper} from '../pages/dashboards/DashboardsPageWrapper'
 import {MenuTestPage} from '../pages/MenuTestPage'
 import {getCSSVariableValue} from '../../_theme/assets/ts/_utils'
+import { Home } from '../pages/Home'
 
 const PrivateRoutes = () => {
   const BuilderPageWrapper = lazy(() => import('../pages/layout-builder/BuilderPageWrapper'))
@@ -21,7 +22,7 @@ const PrivateRoutes = () => {
         {/* Redirect to Dashboard after success login/registration */}
         <Route path='auth/*' element={<Navigate to='/dashboards' />} />
         {/* Pages */}
-        <Route path='dashboards/*' element={<DashboardsPageWrapper />} />
+        <Route path='dashboards/*' element={<Home />} />
         <Route
           path='builder'
           element={
