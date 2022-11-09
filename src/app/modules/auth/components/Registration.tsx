@@ -16,6 +16,7 @@ const initialValues = {
   email: '',
   password: '',
   changepassword: '',
+  tc_no: '',
   acceptTerms: false,
 }
 
@@ -44,6 +45,10 @@ const registrationSchema = Yup.object().shape({
       then: Yup.string().oneOf([Yup.ref('password')], "Password and Confirm Password didn't match"),
     }),
   acceptTerms: Yup.bool().required('You must accept the terms and conditions'),
+  tc_no: Yup.number()
+    .min(11, '11 karakter olmalı')
+    .max(11, '11 karakter olmalı')
+    .required('Zorunlu alan'),
 })
 
 export function Registration() {
@@ -90,14 +95,14 @@ export function Registration() {
       {/* begin::Heading */}
       <div className='mb-10 text-center'>
         {/* begin::Title */}
-        <h1 className='text-dark mb-3'>Create an Account</h1>
+        <h1 className='text-dark mb-3'>Yeni Abonelik Oluştur</h1>
         {/* end::Title */}
 
         {/* begin::Link */}
         <div className='text-gray-400 fw-bold fs-4'>
-          Already have an account?
+          Zaten kayıtlı mısın?
           <Link to='/auth/login' className='link-primary fw-bolder' style={{marginLeft: '5px'}}>
-            Forgot Password ?
+            Şifremi unuttum
           </Link>
         </div>
         {/* end::Link */}
@@ -105,7 +110,7 @@ export function Registration() {
       {/* end::Heading */}
 
       {/* begin::Action */}
-      <button type='button' className='btn btn-light-primary fw-bolder w-100 mb-10'>
+      {/* <button type='button' className='btn btn-light-primary fw-bolder w-100 mb-10'>
         <img
           alt='Logo'
           src={toAbsoluteUrl('/media/svg/brand-logos/google-icon.svg')}
@@ -115,11 +120,11 @@ export function Registration() {
       </button>
       {/* end::Action */}
 
-      <div className='d-flex align-items-center mb-10'>
+      {/* <div className='d-flex align-items-center mb-10'>
         <div className='border-bottom border-gray-300 mw-50 w-100'></div>
         <span className='fw-bold text-gray-400 fs-7 mx-2'>OR</span>
         <div className='border-bottom border-gray-300 mw-50 w-100'></div>
-      </div>
+      </div> */}
 
       {formik.status && (
         <div className='mb-lg-15 alert alert-danger'>
@@ -130,9 +135,9 @@ export function Registration() {
       {/* begin::Form group Firstname */}
       <div className='row fv-row mb-7'>
         <div className='col-xl-6'>
-          <label className='class="form-label fw-bolder text-dark fs-6'>First name</label>
+          <label className='form-label fw-bolder text-dark fs-6'>Adınız</label>
           <input
-            placeholder='First name'
+            placeholder='Adınız'
             type='text'
             autoComplete='off'
             {...formik.getFieldProps('firstname')}
@@ -156,39 +161,38 @@ export function Registration() {
         </div>
         <div className='col-xl-6'>
           {/* begin::Form group Lastname */}
-          <div className='fv-row mb-5'>
-            <label className='form-label fw-bolder text-dark fs-6'>Last name</label>
-            <input
-              placeholder='Last name'
-              type='text'
-              autoComplete='off'
-              {...formik.getFieldProps('lastname')}
-              className={clsx(
-                'form-control form-control-lg form-control-solid',
-                {
-                  'is-invalid': formik.touched.lastname && formik.errors.lastname,
-                },
-                {
-                  'is-valid': formik.touched.lastname && !formik.errors.lastname,
-                }
-              )}
-            />
-            {formik.touched.lastname && formik.errors.lastname && (
-              <div className='fv-plugins-message-container'>
-                <div className='fv-help-block'>
-                  <span role='alert'>{formik.errors.lastname}</span>
-                </div>
-              </div>
+
+          <label className='form-label fw-bolder text-dark fs-6'>Soyadınız</label>
+          <input
+            placeholder='Soyadınız'
+            type='text'
+            autoComplete='off'
+            {...formik.getFieldProps('lastname')}
+            className={clsx(
+              'form-control form-control-lg form-control-solid',
+              {
+                'is-invalid': formik.touched.lastname && formik.errors.lastname,
+              },
+              {
+                'is-valid': formik.touched.lastname && !formik.errors.lastname,
+              }
             )}
-          </div>
+          />
+          {formik.touched.lastname && formik.errors.lastname && (
+            <div className='fv-plugins-message-container'>
+              <div className='fv-help-block'>
+                <span role='alert'>{formik.errors.lastname}</span>
+              </div>
+            </div>
+          )}
+
           {/* end::Form group */}
         </div>
       </div>
       {/* end::Form group */}
-
-      {/* begin::Form group Email */}
-      <div className='fv-row mb-7'>
-        <label className='form-label fw-bolder text-dark fs-6'>Email</label>
+            {/* begin::Form group Email */}
+            <div className='fv-row mb-7'>
+        <label className='form-label fw-bolder text-dark fs-6'>E-Posta</label>
         <input
           placeholder='Email'
           type='email'
@@ -211,11 +215,37 @@ export function Registration() {
         )}
       </div>
       {/* end::Form group */}
+      {/* begin:: Form group TCNO */}
+      <div className='fv-row mb-7'>
+        <label className='form-label fw-bolder text-dark fs-6'>TC Kimlik Numaranız</label>
+        <input
+          placeholder='TCnizi giriniz'
+          type='text'
+          autoComplete='off'
+          {...formik.getFieldProps('tc_no')}
+          className={clsx(
+            'form-control form-control-lg form-control-solid',
+            {'is-invalid': formik.touched.tc_no && formik.errors.tc_no},
+            {
+              'is-valid': formik.touched.tc_no && !formik.errors.tc_no,
+            }
+          )}
+        />
+        {formik.touched.tc_no && formik.errors.tc_no && (
+          <div className='fv-plugins-message-container'>
+            <div className='fv-help-block'>
+              <span role='alert'>{formik.errors.tc_no}</span>
+            </div>
+          </div>
+        )}
+      </div>
+      {/* end :: Form Group*/}
+
 
       {/* begin::Form group Password */}
       <div className='mb-10 fv-row' data-kt-password-meter='true'>
         <div className='mb-1'>
-          <label className='form-label fw-bolder text-dark fs-6'>Password</label>
+          <label className='form-label fw-bolder text-dark fs-6'>Şifre</label>
           <div className='position-relative mb-3'>
             <input
               type='password'
@@ -260,7 +290,7 @@ export function Registration() {
 
       {/* begin::Form group Confirm password */}
       <div className='fv-row mb-5'>
-        <label className='form-label fw-bolder text-dark fs-6'>Confirm Password</label>
+        <label className='form-label fw-bolder text-dark fs-6'>Şifreni Onayla</label>
         <input
           type='password'
           placeholder='Password confirmation'
