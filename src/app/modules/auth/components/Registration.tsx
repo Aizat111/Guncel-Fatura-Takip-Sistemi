@@ -133,9 +133,9 @@ export function Registration() {
       )}
 
       {/* begin::Form group Firstname */}
-      <div className='row fv-row mb-7'>
+      <div className='row fv-row '>
         <div className='col-xl-6'>
-          <label className='form-label fw-bolder text-dark fs-6'>Adınız</label>
+          <label className='form-label fw-bolder text-dark fs-6'>Ad</label>
           <input
             placeholder='Adınız'
             type='text'
@@ -162,7 +162,7 @@ export function Registration() {
         <div className='col-xl-6'>
           {/* begin::Form group Lastname */}
 
-          <label className='form-label fw-bolder text-dark fs-6'>Soyadınız</label>
+          <label className='form-label fw-bolder text-dark fs-6'>Soyad</label>
           <input
             placeholder='Soyadınız'
             type='text'
@@ -217,7 +217,7 @@ export function Registration() {
       {/* end::Form group */}
       {/* begin:: Form group TCNO */}
       <div className='fv-row mb-7'>
-        <label className='form-label fw-bolder text-dark fs-6'>TC Kimlik Numaranız</label>
+        <label className='form-label fw-bolder text-dark fs-6'>TC Kimlik Numara</label>
         <input
           placeholder='TCnizi giriniz'
           type='text'
@@ -249,7 +249,7 @@ export function Registration() {
           <div className='position-relative mb-3'>
             <input
               type='password'
-              placeholder='Password'
+              placeholder='Şifre'
               autoComplete='off'
               {...formik.getFieldProps('password')}
               className={clsx(
@@ -317,7 +317,7 @@ export function Registration() {
       {/* end::Form group */}
 
       {/* begin::Form group */}
-      <div className='fv-row mb-10'>
+      {/* <div className='fv-row mb-10'>
         <div className='form-check form-check-custom form-check-solid'>
           <input
             className='form-check-input'
@@ -343,7 +343,7 @@ export function Registration() {
             </div>
           )}
         </div>
-      </div>
+      </div> */}
       {/* end::Form group */}
 
       {/* begin::Form group */}
@@ -354,7 +354,7 @@ export function Registration() {
           className='btn btn-lg btn-primary w-100 mb-5'
           disabled={formik.isSubmitting || !formik.isValid || !formik.values.acceptTerms}
         >
-          {!loading && <span className='indicator-label'>Submit</span>}
+          {!loading && <span className='indicator-label'>Kaydet</span>}
           {loading && (
             <span className='indicator-progress' style={{display: 'block'}}>
               Please wait...{' '}
@@ -368,7 +368,7 @@ export function Registration() {
             id='kt_login_signup_form_cancel_button'
             className='btn btn-lg btn-light-primary w-100 mb-5'
           >
-            Cancel
+            İptal
           </button>
         </Link>
       </div>

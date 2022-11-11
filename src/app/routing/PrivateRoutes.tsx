@@ -5,7 +5,14 @@ import TopBarProgress from 'react-topbar-progress-indicator'
 import {DashboardsPageWrapper} from '../pages/dashboards/DashboardsPageWrapper'
 import {MenuTestPage} from '../pages/MenuTestPage'
 import {getCSSVariableValue} from '../../_theme/assets/ts/_utils'
-import { Home } from '../pages/Home'
+import {Home} from '../pages/Home'
+import {Profile} from '../pages/Profile'
+import {Water} from '../pages/Invoice/Water'
+import { Electric } from '../pages/Invoice/Electric'
+import {Gas} from '../pages/Invoice/Gas'
+import {OldWater} from '../pages/OldInvoice/Water'
+import { OldElectric } from '../pages/OldInvoice/Electric'
+import {OldGas} from '../pages/OldInvoice/Gas'
 
 const PrivateRoutes = () => {
   const BuilderPageWrapper = lazy(() => import('../pages/layout-builder/BuilderPageWrapper'))
@@ -34,11 +41,45 @@ const PrivateRoutes = () => {
         <Route path='menu-test' element={<MenuTestPage />} />
         {/* Lazy Modules */}
         <Route
-          path='crafted/pages/profile/*'
+          path='/profile/*'
           element={
-            <SuspensedView>
-              <ProfilePage />
-            </SuspensedView>
+            <Profile/>
+          }
+        />
+          <Route
+          path='/invoice/*'
+          element={
+            <Water/>
+          }
+        />
+           <Route
+          path='/invoice/electric'
+          element={
+            <Electric/>
+          }
+        />
+          <Route
+          path='/invoice/gas'
+          element={
+            <Gas/>
+          }
+        />
+        <Route
+          path='/old-invoice/*'
+          element={
+            <OldWater/>
+          }
+        />
+           <Route
+          path='/old-invoice/electric'
+          element={
+            <OldElectric/>
+          }
+        />
+          <Route
+          path='/old-invoice/gas'
+          element={
+            <OldGas/>
           }
         />
         <Route
@@ -57,14 +98,14 @@ const PrivateRoutes = () => {
             </SuspensedView>
           }
         />
-        <Route
+        {/* <Route
           path='crafted/account/*'
           element={
             <SuspensedView>
               <AccountPage />
             </SuspensedView>
           }
-        />
+        /> */}
         <Route
           path='apps/chat/*'
           element={

@@ -81,7 +81,7 @@ const HeaderTopbar: React.FC = () => {
               data-kt-menu-placement='bottom-end'
               data-kt-menu-flip='bottom'
               onClick={logout}
-            >      <i className="fa-light fa-arrow-right-from-bracket"></i>  </a>
+            >      <i className="fas fa-arrow-right-from-bracket"></i>  </a>
    
          
           </div>

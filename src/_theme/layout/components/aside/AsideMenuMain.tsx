@@ -17,22 +17,22 @@ export function AsideMenuMain() {
         <AsideMenuItem to='/dashboards/eCommerce' title='eCommerce' hasBullet={true} /> */}
       </AsideMenuItem>
       <AsideMenuItemWithSub
-        to='/crafted/pages'
+        to='/invoice'
         title='Faturalar'
         fontIcon='bi-archive'
         icon='/media/icons/duotune/arrows/arr001.svg'
       >
-        <AsideMenuItem to='/crafted/pages/profile/su' title='Su' hasBullet={true}/>
-          <AsideMenuItem to='/crafted/pages/profile/overview' title='Elektrik' hasBullet={true} />
-          <AsideMenuItem to='/crafted/pages/profile/projects' title='Gaz' hasBullet={true} />
+        <AsideMenuItem to='/invoice/water' title='Su' hasBullet={true}/>
+          <AsideMenuItem to='/invoice/electric' title='Elektrik' hasBullet={true} />
+          <AsideMenuItem to='/invoice/gas' title='Gaz' hasBullet={true} />
           {/* <AsideMenuItem to='/crafted/pages/profile/campaigns' title='Campaigns' hasBullet={true} />
-          <AsideMenuItem to='/crafted/pages/profile/documents' title='Documents' hasBullet={true} /> */}
-          {/* <AsideMenuItem
+          <AsideMenuItem to='/crafted/pages/profile/documents' title='Documents' hasBullet={true} /> 
+           <AsideMenuItem
             to='/crafted/pages/profile/connections'
             title='Connections'
             hasBullet={true}
-          /> */}
-        {/* </AsideMenuItemWithSub> */}
+          />  */}
+        {/* </AsideMenuItemWithSub>
 
         {/* <AsideMenuItemWithSub to='/crafted/pages/wizards' title='Wizards' hasBullet={true}>
           <AsideMenuItem
@@ -44,14 +44,14 @@ export function AsideMenuMain() {
         </AsideMenuItemWithSub> */}
       </AsideMenuItemWithSub>
       <AsideMenuItemWithSub
-        to='/crafted/accounts'
+        to='/old-invoice'
         title='Geçmiş Faturalar'
         icon='/media/icons/duotune/arrows/arr001.svg'
         fontIcon='bi-person'
       >
-        <AsideMenuItem to='/crafted/account/overview' title='Su' hasBullet={true} />
-        <AsideMenuItem to='/crafted/account/settings' title='Elektrik' hasBullet={true} />
-        <AsideMenuItem to='/crafted/account/gaz' title='Gaz' hasBullet={true} />
+        <AsideMenuItem to='/old-invoice/water' title='Su' hasBullet={true} />
+        <AsideMenuItem to='/old-invoice/electric' title='Elektrik' hasBullet={true} />
+        <AsideMenuItem to='/old-invoice/gas' title='Gaz' hasBullet={true} />
       </AsideMenuItemWithSub>
       {/* <AsideMenuItemWithSub
         to='/error'
@@ -62,7 +62,7 @@ export function AsideMenuMain() {
         <AsideMenuItem to='/error/404' title='Error 404' hasBullet={true} />
         <AsideMenuItem to='/error/500' title='Error 500' hasBullet={true} />
       </AsideMenuItemWithSub> */}
-        <AsideMenuItem to='/error/405' title='Profil' icon='/media/icons/duotune/arrows/arr001.svg'
+        <AsideMenuItem to='/profile' title='Hesabım' icon='/media/icons/duotune/arrows/arr001.svg'
         fontIcon='bi-person'/>
       <AsideMenuItem to='/error/404' title='Cüzdan' icon='/media/icons/duotune/arrows/arr001.svg'
         fontIcon='bi-person'/>
