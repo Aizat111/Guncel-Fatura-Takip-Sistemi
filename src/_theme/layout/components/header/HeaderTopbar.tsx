@@ -24,14 +24,14 @@ const HeaderTopbar: React.FC = () => {
       <PageTitle />
 
       <div className='d-flex align-items-center overflow-auto pt-3 pt-sm-0'>
-        <div className='header-search me-4'>
+        {/* <div className='header-search me-4'>
           <Search />
-        </div>
+        </div> */}
 
-        <div className='d-flex'>
-          <div className='d-flex align-items-center me-4'>
+         <div className='d-flex'>
+          {/*<div className='d-flex align-items-center me-4'>
             {/* eslint-disable-next-line */}
-            <a
+            {/* <a
               href='#'
               className='btn btn-icon btn-active-light btn-outline btn-outline-default btn-icon-gray-700 btn-active-icon-primary'
               data-kt-menu-trigger='click'
@@ -42,7 +42,7 @@ const HeaderTopbar: React.FC = () => {
               <KTSVG path='/media/icons/duotune/general/gen025.svg' className='svg-icon-1' />
             </a>
             <QuickLinks />
-          </div>
+          </div> */} 
 
           <div className='d-flex align-items-center me-4'>
             {/* eslint-disable-next-line */}
@@ -55,7 +55,7 @@ const HeaderTopbar: React.FC = () => {
               data-kt-menu-placement='bottom-end'
               data-kt-menu-flip='bottom'
             >
-              <KTSVG path='/media/icons/duotune/communication/com012.svg' className='svg-icon-1' />
+              <KTSVG path='/media/icons/duotune/general/gen007.svg' className='svg-icon-1' />
             </a>
           </div>
 
@@ -81,7 +81,12 @@ const HeaderTopbar: React.FC = () => {
               data-kt-menu-placement='bottom-end'
               data-kt-menu-flip='bottom'
               onClick={logout}
-            >      <i className="fas fa-arrow-right-from-bracket"></i>  </a>
+            >      
+            <KTSVG
+  path='/media/icons/duotune/arrows/arr015.svg'
+  className='svg-icon svg-icon-3x '
+/>
+              </a>
    
          
           </div>

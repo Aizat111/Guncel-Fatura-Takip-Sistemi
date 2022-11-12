@@ -177,7 +177,7 @@ const AccountHeader: React.FC = () => {
           </div>
         </div>
 
-        <div className='d-flex overflow-auto h-55px'>
+        {/* <div className='d-flex overflow-auto h-55px'>
           <ul className='nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bolder flex-nowrap'>
             <li className='nav-item'>
               <Link
@@ -202,7 +202,7 @@ const AccountHeader: React.FC = () => {
               </Link>
             </li>
           </ul>
-        </div>
+        </div> */}
       </div>
     </div>
   )

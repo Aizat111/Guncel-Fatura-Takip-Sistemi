@@ -1,7 +1,10 @@
 import { FC } from "react"
+import {TableHeader} from './component/TableHeader'
 
 export const OldElectric : FC = ()=>{
     return(
-        <h1>cjsdkc</h1>
+        <><TableHeader />
+      
+        </>
     )
 }

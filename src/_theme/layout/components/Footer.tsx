@@ -10,7 +10,7 @@ const Footer: React.FC = () => {
       <div
         className={`${classes.footerContainer} d-flex flex-column flex-md-row align-items-center justify-content-between`}
       >
-        <div className='text-dark order-2 order-md-1'>
+        {/* <div className='text-dark order-2 order-md-1'>
           <span className='text-muted fw-bold me-1'>{new Date().getFullYear()} &copy;</span>
           <a
             href='https://keenthemes.com/'
@@ -19,26 +19,26 @@ const Footer: React.FC = () => {
           >
             Keenthemes
           </a>
-        </div>
-        <ul className='menu menu-gray-600 menu-hover-primary fw-bold order-1'>
+        </div> */}
+        {/* <ul className='menu menu-gray-600 menu-hover-primary fw-bold order-1'>
           <li className='menu-item'>
             <a href='https://keenthemes.com/' target='_blank' className='menu-link px-2'>
               About
             </a>
-          </li>
+          </li> */}
 
-          <li className='menu-item'>
+          {/* <li className='menu-item'>
             <a href='https://devs.keenthemes.com/' target='_blank' className='menu-link px-2'>
               Support
             </a>
-          </li>
+          </li> */}
 
-          <li className='menu-item'>
+          {/* <li className='menu-item'>
             <a href={process.env.REACT_APP_PURCHASE_URL} target='_blank' className='menu-link px-2'>
               Purchase
             </a>
           </li>
-        </ul>
+        </ul> */}
       </div>
     </div>
   )

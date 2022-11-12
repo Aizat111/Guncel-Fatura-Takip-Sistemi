@@ -133,7 +133,7 @@ export function Registration() {
       )}
 
       {/* begin::Form group Firstname */}
-      <div className='row fv-row '>
+      <div className='row fv-row  mb-7'>
         <div className='col-xl-6'>
           <label className='form-label fw-bolder text-dark fs-6'>Ad</label>
           <input
@@ -191,7 +191,7 @@ export function Registration() {
       </div>
       {/* end::Form group */}
             {/* begin::Form group Email */}
-            <div className='fv-row mb-7'>
+          <div className='fv-row mb-7'>
         <label className='form-label fw-bolder text-dark fs-6'>E-Posta</label>
         <input
           placeholder='Email'
@@ -283,7 +283,7 @@ export function Registration() {
           {/* end::Meter */}
         </div>
         <div className='text-muted'>
-          Use 8 or more characters with a mix of letters, numbers & symbols.
+        Harf, sayı ve simge karışımıyla 8 veya daha fazla karakter kullanın.
         </div>
       </div>
       {/* end::Form group */}
@@ -293,7 +293,7 @@ export function Registration() {
         <label className='form-label fw-bolder text-dark fs-6'>Şifreni Onayla</label>
         <input
           type='password'
-          placeholder='Password confirmation'
+          placeholder=''
           autoComplete='off'
           {...formik.getFieldProps('changepassword')}
           className={clsx(

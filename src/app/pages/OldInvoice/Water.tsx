@@ -1,7 +1,10 @@
 import { FC } from "react"
+import { TableHeader } from "./component/TableHeader"
 
  export const OldWater : FC =()=>{
      return (
-         <h1>jcd</h1>
+         <>
+         <TableHeader/>
+         </>
      )
  }
