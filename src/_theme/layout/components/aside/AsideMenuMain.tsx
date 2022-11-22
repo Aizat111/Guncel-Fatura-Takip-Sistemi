@@ -64,7 +64,7 @@ export function AsideMenuMain() {
       </AsideMenuItemWithSub> */}
         <AsideMenuItem to='/profile' title='Hesabım' icon='/media/icons/duotune/arrows/arr001.svg'
         fontIcon='bi-person'/>
-      <AsideMenuItem to='/error/404' title='Cüzdan' icon='/media/icons/duotune/arrows/arr001.svg'
+      <AsideMenuItem to='/cards' title='Cüzdan' icon='/media/icons/duotune/arrows/arr001.svg'
         fontIcon='bi-person'/>
       {/* <AsideMenuItemWithSub
         to='/apps/chat'

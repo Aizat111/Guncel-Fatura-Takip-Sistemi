@@ -13,6 +13,8 @@ import {Gas} from '../pages/Invoice/Gas'
 import {OldWater} from '../pages/OldInvoice/Water'
 import { OldElectric } from '../pages/OldInvoice/Electric'
 import {OldGas} from '../pages/OldInvoice/Gas'
+import Cards from '../pages/Cards/Cards/Cards'
+import { Homepage } from '../pages/Cards/Homepage'
 
 const PrivateRoutes = () => {
   const BuilderPageWrapper = lazy(() => import('../pages/layout-builder/BuilderPageWrapper'))
@@ -80,6 +82,12 @@ const PrivateRoutes = () => {
           path='/old-invoice/gas'
           element={
             <OldGas/>
+          }
+        />
+         <Route
+          path='/cards/*'
+          element={
+            <Homepage/>
           }
         />
         <Route
