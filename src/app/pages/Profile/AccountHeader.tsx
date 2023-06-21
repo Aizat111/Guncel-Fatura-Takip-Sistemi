@@ -1,13 +1,27 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {KTSVG, toAbsoluteUrl} from '../../../_theme/helpers'
 import {Link} from 'react-router-dom'
 import {Dropdown1} from '../../../_theme/partials'
 import {useLocation} from 'react-router'
+import { useSelector, shallowEqual } from 'react-redux'
+import { RootState } from '../../../setup'
+import { UserModel } from '../../modules/auth/models/UserModel'
+import { useAppSelector } from '../../../setup/hooks/redux'
+import { Api } from '../Services/api'
 
 const AccountHeader: React.FC = () => {
-  const location = useLocation()
+  const loginUser: UserModel = useSelector<RootState>(({auth}) => auth.user, shallowEqual) as UserModel
+  const [user, setUser] = useState<any>()
+  const {refresh} = useAppSelector((state)=>state.users)
 
+  useEffect(()=>{
+    Api()
+    .users.user(loginUser.id)
+    .then((res) => {
+      setUser(res)
+    })
+  },[refresh])
   return (
     <div className='card mb-5 mb-xl-10'>
       <div className='card-body pt-9 pb-0'>
@@ -30,7 +44,7 @@ const AccountHeader: React.FC = () => {
               <div className='d-flex flex-column'>
                 <div className='d-flex align-items-center mb-2'>
                   <a href='#' className='text-gray-800 text-hover-primary fs-2 fw-bolder me-1'>
-                   Sena Yılmaz
+                 {user?.firstname} {user?.lastname}
                   </a>
                   <a href='#'>
                     <KTSVG
@@ -49,7 +63,7 @@ const AccountHeader: React.FC = () => {
                   </a> */}
                 </div>
 
-                <div className='d-flex flex-wrap fw-bold fs-6 mb-4 pe-2'>
+                <div className='d-flex flex-wrap fw-bold fs-8 mb-4 pe-2'>
                   <a
                     href='#'
                     className='d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2'
@@ -58,7 +72,7 @@ const AccountHeader: React.FC = () => {
                       path='/media/icons/duotune/communication/com006.svg'
                       className='svg-icon-4 me-1'
                     />
-                    Kullanıcı
+                    {user?.roles[0].value}
                   </a>
                   <a
                     href='#'
@@ -68,7 +82,7 @@ const AccountHeader: React.FC = () => {
                       path='/media/icons/duotune/general/gen018.svg'
                       className='svg-icon-4 me-1'
                     />
-                   Address
+                   {user?.address.substring(0,20)}{ user?.address.length >20 ? '...' : ''}
                   </a>
                   <a
                     href='#'
@@ -78,7 +92,7 @@ const AccountHeader: React.FC = () => {
                       path='/media/icons/duotune/communication/com011.svg'
                       className='svg-icon-4 me-1'
                     />
-                    senayılmaz@gmail.com.tr
+                    {user?.email}
                   </a>
                 </div>
               </div>

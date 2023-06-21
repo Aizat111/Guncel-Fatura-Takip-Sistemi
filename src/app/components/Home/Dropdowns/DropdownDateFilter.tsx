@@ -12,7 +12,7 @@ export function DropdownDateFilter() {
 
       <div className='px-7 py-5'>
         <div className='mb-10'>
-          <label className='form-label fw-bold'>Status:</label>
+          <label className='form-label fw-bold'>Zaman:</label>
 
           <div>
             <select
@@ -68,7 +68,7 @@ export function DropdownDateFilter() {
             className='btn btn-sm btn-white btn-active-light-primary me-2'
             data-kt-menu-dismiss='true'
           >
-            Reset
+            İptal
           </button>
 
           <button type='submit' className='btn btn-sm btn-primary' data-kt-menu-dismiss='true'>

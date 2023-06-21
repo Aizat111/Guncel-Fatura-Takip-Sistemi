@@ -2,9 +2,13 @@ import {all} from 'redux-saga/effects'
 import {combineReducers} from 'redux'
 
 import * as auth from '../../app/modules/auth'
+import RoleSlice from '../../app/pages/Roles/reducers/RoleSlice'
+import UserSlice from '../../app/pages/Users/reducers/UserSlice'
 
 export const rootReducer = combineReducers({
   auth: auth.reducer,
+  roles: RoleSlice,
+  users: UserSlice
 })
 
 export type RootState = ReturnType<typeof rootReducer>

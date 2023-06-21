@@ -16,6 +16,9 @@ import {OldGas} from '../pages/OldInvoice/Gas'
 import Cards from '../pages/Cards/Cards/Cards'
 import { Homepage } from '../pages/Cards/Homepage'
 
+import { Roles } from '../pages/Roles/Roles'
+import { Users } from '../pages/Users/Users'
+
 const PrivateRoutes = () => {
   const BuilderPageWrapper = lazy(() => import('../pages/layout-builder/BuilderPageWrapper'))
   const ProfilePage = lazy(() => import('../modules/profile/ProfilePage'))
@@ -47,6 +50,18 @@ const PrivateRoutes = () => {
           element={
             <Profile/>
           }
+        />
+        <Route
+        path='/users/*'
+        element={
+          <Users/>
+        }
+        />
+           <Route
+        path='/roles/*'
+        element={
+          <Roles/>
+        }
         />
           <Route
           path='/invoice/*'

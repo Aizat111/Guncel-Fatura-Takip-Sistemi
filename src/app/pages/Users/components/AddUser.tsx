@@ -4,21 +4,12 @@ import {useDispatch} from 'react-redux'
 import {useFormik} from 'formik'
 import * as Yup from 'yup'
 import clsx from 'clsx'
-import * as auth from '../redux/AuthRedux'
-import {register} from '../redux/AuthCRUD'
-import {Link} from 'react-router-dom'
-import {toAbsoluteUrl} from '../../../../_theme/helpers'
 import {PasswordMeterComponent} from '../../../../_theme/assets/ts/components'
+import { Api } from '../../Services/api'
+import Swal from 'sweetalert2'
+import { setRefresh } from '../reducers/UserSlice'
 
-const initialValues = {
-  firstname: '',
-  lastname: '',
-  email: '',
-  password: '',
-  changepassword: '',
-  tc_no: '',
-  phone_number: ''
-}
+
 
 const registrationSchema = Yup.object().shape({
   firstname: Yup.string()
@@ -36,48 +27,83 @@ const registrationSchema = Yup.object().shape({
     .min(3, 'Minimum 3 symbols')
     .max(50, 'Maximum 50 symbols')
     .required('Zorunlu alan'),
-  password: Yup.string()
-    .min(3, 'Minimum 3 symbols')
-    .max(50, 'Maximum 50 symbols')
-    .required('Zorunlu alan'),
-  tc_no: Yup.string()
+  // password: Yup.string()
+  //   .min(3, 'Minimum 3 symbols')
+  //   .max(50, 'Maximum 50 symbols')
+  //   .required('Zorunlu alan'),
+  tc: Yup.string()
     .min(11, '11 karakter olmalı')
     .max(11, '11 karakter olmalı')
     .required('Zorunlu alan'),
 })
 type Props = {
   handleClose ?: any
+  update: boolean
+  user: any
 }
-export const Registration :FC<Props>= ({handleClose}) =>{
+export const AddUser :FC<Props>= ({handleClose, update, user}) =>{
+  const initialValues = {
+    firstname: user.firstname,
+    lastname: user.lastname,
+    email: user.email,
+    password: user.password,
+    address: user.address,
+    tc: user.tc,
+    phone_number: user.phone_number
+  }
   const [loading, setLoading] = useState(false)
   const dispatch = useDispatch()
   const formik = useFormik({
     initialValues,
     validationSchema: registrationSchema,
-    onSubmit: (values, {setStatus, setSubmitting}) => {
-      setLoading(true)
-      setTimeout(() => {
-        register(
-          values.email,
-          values.firstname,
-          values.lastname,
-          values.password,
-          values.phone_number,
-          values.tc_no,
-          ''
-        )
-          .then(({data: {api_token}}) => {
-            setLoading(false)
-            dispatch(auth.actions.register(api_token))
-            handleClose();
+    onSubmit: async (values, {setSubmitting}) => {
+        setSubmitting(true)
+        const body = {
+          firstname: values.firstname,
+          lastname: values.lastname,
+          tc: values.tc,
+          email: values.email,
+          phone_number: values.phone_number,
+          password: values.password,
+          address: '',
+
+        }
+        try {
+            !update ? (
+              Api()
+              .users.addUser(body)
+              .then((res) => {
+             
+                  Swal.fire({
+                    title: 'Başarılı!',
+                    text: 'Kullanıcı başarı ile eklendi',
+                    icon: 'success',
+                    confirmButtonText: 'Tamam'
+                  })
+                  dispatch(setRefresh())
           })
-          .catch(() => {
-            setLoading(false)
-            setSubmitting(false)
-            setStatus('Registration process has broken')
+            ):(
+              Api()
+              .users.updateUser(user.id,body)
+              .then((res) => {
+                Swal.fire({
+                  title: 'Başarılı!',
+                  text: 'Kullanıcı bilgileri başarı ile düzenlendi',
+                  icon: 'success',
+                  confirmButtonText: 'Tamam'
+                })
+                dispatch(setRefresh())
           })
-      }, 1000)
-    },
+
+            )
+            handleClose()
+      }
+        catch (ex) {
+          console.error(ex)
+        } finally {
+          setSubmitting(false)
+        }
+      },
   })
 
   useEffect(() => {
@@ -101,7 +127,7 @@ export const Registration :FC<Props>= ({handleClose}) =>{
       {/* begin::Form group Firstname */}
       <div className='row fv-row  mb-7'>
         <div className='col-xl-6'>
-          <label className='form-label fw-bolder text-dark fs-6'>Ad</label>
+          <label className='required form-label fw-bolder text-dark fs-6'>Ad</label>
           <input
             placeholder='Adınız'
             type='text'
@@ -128,7 +154,7 @@ export const Registration :FC<Props>= ({handleClose}) =>{
         <div className='col-xl-6'>
           {/* begin::Form group Lastname */}
 
-          <label className='form-label fw-bolder text-dark fs-6'>Soyad</label>
+          <label className='required form-label fw-bolder text-dark fs-6'>Soyad</label>
           <input
             placeholder='Soyadınız'
             type='text'
@@ -158,7 +184,7 @@ export const Registration :FC<Props>= ({handleClose}) =>{
       {/* end::Form group */}
             {/* begin::Form group Email */}
           <div className='fv-row mb-7'>
-        <label className='form-label fw-bolder text-dark fs-6'>E-Posta</label>
+        <label className='required form-label fw-bolder text-dark fs-6'>E-Posta</label>
         <input
           placeholder='E-Posta'
           type='email'
@@ -182,7 +208,7 @@ export const Registration :FC<Props>= ({handleClose}) =>{
       </div>
 
       <div className='fv-row mb-7'>
-        <label className='form-label fw-bolder text-dark fs-6'>Telefon No</label>
+        <label className='required form-label fw-bolder text-dark fs-6'>Telefon No</label>
         <input
           placeholder='Telefon Numara'
           type='phone_number'
@@ -207,24 +233,24 @@ export const Registration :FC<Props>= ({handleClose}) =>{
       {/* end::Form group */}
       {/* begin:: Form group TCNO */}
       <div className='fv-row mb-7'>
-        <label className='form-label fw-bolder text-dark fs-6'>TC Kimlik Numara</label>
+        <label className='required form-label fw-bolder text-dark fs-6'>TC Kimlik Numara</label>
         <input
           placeholder='TC Kimlik Numaranızı Giriniz '
           type='text'
           autoComplete='off'
-          {...formik.getFieldProps('tc_no')}
+          {...formik.getFieldProps('tc')}
           className={clsx(
             'form-control form-control-lg form-control-solid',
-            {'is-invalid': formik.touched.tc_no && formik.errors.tc_no},
+            {'is-invalid': formik.touched.tc && formik.errors.tc},
             {
-              'is-valid': formik.touched.tc_no && !formik.errors.tc_no,
+              'is-valid': formik.touched.tc && !formik.errors.tc,
             }
           )}
         />
-        {formik.touched.tc_no && formik.errors.tc_no && (
+        {formik.touched.tc && formik.errors.tc && (
           <div className='fv-plugins-message-container'>
             <div className='fv-help-block'>
-              <span role='alert'>{formik.errors.tc_no}</span>
+              <span role='alert'>{formik.errors.tc}</span>
             </div>
           </div>
         )}
@@ -233,9 +259,10 @@ export const Registration :FC<Props>= ({handleClose}) =>{
 
 
       {/* begin::Form group Password */}
-      <div className='mb-10 fv-row' data-kt-password-meter='true'>
+      {!update && 
+        <div className='mb-10 fv-row' data-kt-password-meter='true'>
         <div className='mb-1'>
-          <label className='form-label fw-bolder text-dark fs-6'>Şifre</label>
+          <label className='required form-label fw-bolder text-dark fs-6'>Şifre</label>
           <div className='position-relative mb-3'>
             <input
               type='password'
@@ -275,7 +302,8 @@ export const Registration :FC<Props>= ({handleClose}) =>{
         <div className='text-muted'>
         Harf, sayı ve simge karışımıyla 8 veya daha fazla karakter kullanın.
         </div>
-      </div>
+      </div> }
+    
    
       <div className='text-center'>
         <button
@@ -292,15 +320,16 @@ export const Registration :FC<Props>= ({handleClose}) =>{
             </span>
           )}
         </button>
-        <Link to='/auth/login'>
+   
           <button
             type='button'
             id='kt_login_signup_form_cancel_button'
             className='btn btn-lg btn-light-primary w-100 mb-5'
+            onClick={handleClose}
           >
             İptal
           </button>
-        </Link>
+  
       </div>
       {/* end::Form group */}
     </form>

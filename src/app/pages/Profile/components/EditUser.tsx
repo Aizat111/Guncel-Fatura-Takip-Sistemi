@@ -1,88 +1,95 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, {FC, useEffect, useState} from 'react'
-import {useDispatch} from 'react-redux'
+import React, {FC,useState} from 'react'
+import {shallowEqual, useDispatch, useSelector} from 'react-redux'
 import {useFormik} from 'formik'
 import * as Yup from 'yup'
-import clsx from 'clsx'
-import * as auth from '../redux/AuthRedux'
-import {register} from '../redux/AuthCRUD'
-import {Link} from 'react-router-dom'
-import {toAbsoluteUrl} from '../../../../_theme/helpers'
+import Swal from 'sweetalert2'
 import {PasswordMeterComponent} from '../../../../_theme/assets/ts/components'
+import { register } from '../../../modules/auth/redux/AuthCRUD'
+import { UserModel } from '../../../modules/auth/models/UserModel'
+import { RootState } from '../../../../setup'
+import { Api } from '../../Services/api'
+import { setRefresh } from '../../Users/reducers/UserSlice'
+import clsx from 'clsx'
 
-const initialValues = {
-  firstname: '',
-  lastname: '',
-  email: '',
-  password: '',
-  changepassword: '',
-  tc_no: '',
-  phone_number: ''
-}
-
-const registrationSchema = Yup.object().shape({
-  firstname: Yup.string()
-    .min(3, 'Minimum 3 symbols')
-    .max(50, 'Maximum 50 symbols')
-    .required('Zorunlu alan'),
-  email: Yup.string()
-    .email('Wrong email format')
-    .min(3, 'Minimum 3 symbols')
-    .max(50, 'Maximum 50 symbols')
-    .required('Zorunlu alan'),
-    phone_number: Yup.string()
-    .required('Zorunlu alan'),
-  lastname: Yup.string()
-    .min(3, 'Minimum 3 symbols')
-    .max(50, 'Maximum 50 symbols')
-    .required('Zorunlu alan'),
-  password: Yup.string()
-    .min(3, 'Minimum 3 symbols')
-    .max(50, 'Maximum 50 symbols')
-    .required('Zorunlu alan'),
-  tc_no: Yup.string()
-    .min(11, '11 karakter olmalı')
-    .max(11, '11 karakter olmalı')
-    .required('Zorunlu alan'),
-})
 type Props = {
-  handleClose ?: any
+    handleClose: any
 }
-export const Registration :FC<Props>= ({handleClose}) =>{
+
+
+
+
+export const EditUser :FC<Props>= ({handleClose}) =>{
+  const loginUser: UserModel = useSelector<RootState>(({auth}) => auth.user, shallowEqual) as UserModel
+  const initialValues = {
+    firstname: loginUser.firstname,
+    lastname: loginUser.lastname,
+    email: loginUser.email,
+    tc: loginUser.tc,
+    address: loginUser.address,
+    phone_number: loginUser.phone_number
+  }
+  const registrationSchema = Yup.object().shape({
+    // firstname: Yup.string()
+    //   .min(3, 'Minimum 3 symbols')
+    //   .max(50, 'Maximum 50 symbols')
+    //   .required('First name is required'),
+    // email: Yup.string()
+    //   .email('Wrong email format')
+    //   .min(3, 'Minimum 3 symbols')
+    //   .max(50, 'Maximum 50 symbols')
+    //   .required('Email is required'),
+    // lastname: Yup.string()
+    //   .min(3, 'Minimum 3 symbols')
+    //   .max(50, 'Maximum 50 symbols')
+    //   .required('Last name is required'),
+    // tc: Yup.number()
+    //   .min(10, '11 karakter olmalı')
+    //   .max(11, '11 karakter olmalı')
+    //   .required('Zorunlu alan'),
+  })
   const [loading, setLoading] = useState(false)
   const dispatch = useDispatch()
   const formik = useFormik({
     initialValues,
     validationSchema: registrationSchema,
-    onSubmit: (values, {setStatus, setSubmitting}) => {
-      setLoading(true)
-      setTimeout(() => {
-        register(
-          values.email,
-          values.firstname,
-          values.lastname,
-          values.password,
-          values.phone_number,
-          values.tc_no,
-          ''
-        )
-          .then(({data: {api_token}}) => {
-            setLoading(false)
-            dispatch(auth.actions.register(api_token))
-            handleClose();
+    onSubmit: async (values, {setSubmitting}) => {
+        setSubmitting(true)
+        const body = {
+          firstname: values.firstname,
+          lastname: values.lastname,
+          tc: values.tc,
+          email: values.email,
+          phone_number: values.phone_number,
+          address: values.address,
+
+        }
+        try {
+       
+         
+              Api()
+              .users.updateUser(loginUser.id,body)
+              .then((res) => {
+                Swal.fire({
+                  title: 'Başarılı!',
+                  text: 'Kullanıcı bilgileri başarı ile düzenlendi',
+                  icon: 'success',
+                  confirmButtonText: 'Tamam'
+                })
+                dispatch(setRefresh())
           })
-          .catch(() => {
-            setLoading(false)
-            setSubmitting(false)
-            setStatus('Registration process has broken')
-          })
-      }, 1000)
-    },
+
+            
+            handleClose()
+      }
+        catch (ex) {
+          console.error(ex)
+        } finally {
+          setSubmitting(false)
+        }
+      },
   })
 
-  useEffect(() => {
-    PasswordMeterComponent.bootstrap()
-  }, [])
 
   return (
     <form
@@ -101,7 +108,7 @@ export const Registration :FC<Props>= ({handleClose}) =>{
       {/* begin::Form group Firstname */}
       <div className='row fv-row  mb-7'>
         <div className='col-xl-6'>
-          <label className='form-label fw-bolder text-dark fs-6'>Ad</label>
+          <label className='required form-label fw-bolder text-dark fs-6'>Ad</label>
           <input
             placeholder='Adınız'
             type='text'
@@ -128,7 +135,7 @@ export const Registration :FC<Props>= ({handleClose}) =>{
         <div className='col-xl-6'>
           {/* begin::Form group Lastname */}
 
-          <label className='form-label fw-bolder text-dark fs-6'>Soyad</label>
+          <label className='required form-label fw-bolder text-dark fs-6'>Soyad</label>
           <input
             placeholder='Soyadınız'
             type='text'
@@ -158,7 +165,7 @@ export const Registration :FC<Props>= ({handleClose}) =>{
       {/* end::Form group */}
             {/* begin::Form group Email */}
           <div className='fv-row mb-7'>
-        <label className='form-label fw-bolder text-dark fs-6'>E-Posta</label>
+        <label className='required form-label fw-bolder text-dark fs-6'>E-Posta</label>
         <input
           placeholder='E-Posta'
           type='email'
@@ -182,7 +189,7 @@ export const Registration :FC<Props>= ({handleClose}) =>{
       </div>
 
       <div className='fv-row mb-7'>
-        <label className='form-label fw-bolder text-dark fs-6'>Telefon No</label>
+        <label className='required form-label fw-bolder text-dark fs-6'>Telefon No</label>
         <input
           placeholder='Telefon Numara'
           type='phone_number'
@@ -207,75 +214,56 @@ export const Registration :FC<Props>= ({handleClose}) =>{
       {/* end::Form group */}
       {/* begin:: Form group TCNO */}
       <div className='fv-row mb-7'>
-        <label className='form-label fw-bolder text-dark fs-6'>TC Kimlik Numara</label>
+        <label className='required form-label fw-bolder text-dark fs-6'>TC Kimlik Numara</label>
         <input
           placeholder='TC Kimlik Numaranızı Giriniz '
           type='text'
           autoComplete='off'
-          {...formik.getFieldProps('tc_no')}
+          {...formik.getFieldProps('tc')}
           className={clsx(
             'form-control form-control-lg form-control-solid',
-            {'is-invalid': formik.touched.tc_no && formik.errors.tc_no},
+            {'is-invalid': formik.touched.tc && formik.errors.tc},
             {
-              'is-valid': formik.touched.tc_no && !formik.errors.tc_no,
+              'is-valid': formik.touched.tc && !formik.errors.tc,
             }
           )}
         />
-        {formik.touched.tc_no && formik.errors.tc_no && (
+        {formik.touched.tc && formik.errors.tc && (
           <div className='fv-plugins-message-container'>
             <div className='fv-help-block'>
-              <span role='alert'>{formik.errors.tc_no}</span>
+              <span role='alert'>{formik.errors.tc}</span>
             </div>
           </div>
         )}
       </div>
       {/* end :: Form Group*/}
-
-
-      {/* begin::Form group Password */}
-      <div className='mb-10 fv-row' data-kt-password-meter='true'>
-        <div className='mb-1'>
-          <label className='form-label fw-bolder text-dark fs-6'>Şifre</label>
-          <div className='position-relative mb-3'>
-            <input
-              type='password'
-              placeholder='Şifre'
-              autoComplete='off'
-              {...formik.getFieldProps('password')}
-              className={clsx(
-                'form-control form-control-lg form-control-solid',
-                {
-                  'is-invalid': formik.touched.password && formik.errors.password,
-                },
-                {
-                  'is-valid': formik.touched.password && !formik.errors.password,
-                }
-              )}
-            />
-            {formik.touched.password && formik.errors.password && (
-              <div className='fv-plugins-message-container'>
-                <div className='fv-help-block'>
-                  <span role='alert'>{formik.errors.password}</span>
-                </div>
+      <div className='row mb-7 d-flex'>
+              <div className='col-xs-12 col-md-12'>
+                <label className='required fw-bold fs-6 mb-2'>Adres</label>
+                <textarea
+                  placeholder='Adres'
+                  {...formik.getFieldProps('address')}
+                  name='address'
+                  className={clsx(
+                    'form-control form-control-solid mb-3 mb-lg-0',
+                    {'is-invalid': formik.touched.address && formik.errors.address},
+                    {
+                      'is-valid': formik.touched.address && !formik.errors.address,
+                    }
+                  )}
+                  autoComplete='off'
+                ></textarea>
+                {formik.touched.address && formik.errors.address && (
+                  <div className='fv-plugins-message-container'>
+                    <div className='fv-help-block'>
+                      <span role='alert'>{formik.errors.address}</span>
+                    </div>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-          {/* begin::Meter */}
-          <div
-            className='d-flex align-items-center mb-3'
-            data-kt-password-meter-control='highlight'
-          >
-            <div className='flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2'></div>
-            <div className='flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2'></div>
-            <div className='flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2'></div>
-            <div className='flex-grow-1 bg-secondary bg-active-success rounded h-5px'></div>
-          </div>
-          {/* end::Meter */}
-        </div>
-        <div className='text-muted'>
-        Harf, sayı ve simge karışımıyla 8 veya daha fazla karakter kullanın.
-        </div>
-      </div>
+            </div>
+ 
+    
    
       <div className='text-center'>
         <button
@@ -292,15 +280,16 @@ export const Registration :FC<Props>= ({handleClose}) =>{
             </span>
           )}
         </button>
-        <Link to='/auth/login'>
+   
           <button
             type='button'
             id='kt_login_signup_form_cancel_button'
             className='btn btn-lg btn-light-primary w-100 mb-5'
+            onClick={handleClose}
           >
             İptal
           </button>
-        </Link>
+  
       </div>
       {/* end::Form group */}
     </form>

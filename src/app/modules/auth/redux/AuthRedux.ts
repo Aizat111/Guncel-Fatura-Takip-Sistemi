@@ -29,12 +29,13 @@ export interface IAuthState {
 }
 
 export const reducer = persistReducer(
-  {storage, key: 'invoice-calculator-auth', whitelist: ['user', 'accessToken']},
+  {storage, key: 'v100-demo1-auth', whitelist: ['user', 'accessToken']},
   (state: IAuthState = initialAuthState, action: ActionWithPayload<IAuthState>) => {
     switch (action.type) {
       case actionTypes.Login: {
         const accessToken = action.payload?.accessToken
-        return {accessToken, user: undefined}
+        const user = action.payload?.user
+        return {accessToken:accessToken, user: user}
       }
 
       case actionTypes.Register: {
@@ -63,7 +64,10 @@ export const reducer = persistReducer(
 )
 
 export const actions = {
-  login: (accessToken: string) => ({type: actionTypes.Login, payload: {accessToken}}),
+  login: (accessToken: string, user: any) => ({
+    type: actionTypes.Login,
+    payload: {accessToken, user},
+  }),
   register: (accessToken: string) => ({
     type: actionTypes.Register,
     payload: {accessToken},
@@ -72,7 +76,7 @@ export const actions = {
   requestUser: () => ({
     type: actionTypes.UserRequested,
   }),
-  fulfillUser: (user: UserModel) => ({type: actionTypes.UserLoaded, payload: {user}}),
+  // fulfillUser: (user: UserModel) => ({type: actionTypes.UserLoaded, payload: {user}}),
   setUser: (user: UserModel) => ({type: actionTypes.SetUser, payload: {user}}),
 }
 
@@ -90,7 +94,7 @@ export function* saga() {
     const getToken = (state) => state.auth.accessToken
     // @ts-ignore
     let token = yield select(getToken)
-    const {data: user} = yield getUserByToken(token)
-    yield put(actions.fulfillUser(user))
+    // const {data: user} = yield getUserByToken(token)
+    // yield put(actions.fulfillUser(user))
   })
 }

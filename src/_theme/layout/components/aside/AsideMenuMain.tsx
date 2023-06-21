@@ -1,8 +1,12 @@
 import {AsideMenuItemWithSub} from './AsideMenuItemWithSub'
 import {AsideMenuItem} from './AsideMenuItem'
 import {KTSVG} from '../../../helpers'
+import { useSelector, shallowEqual } from 'react-redux'
+import { UserModel } from '../../../../app/modules/auth/models/UserModel'
+import { RootState } from '../../../../setup'
 
 export function AsideMenuMain() {
+  const user: UserModel = useSelector<RootState>(({auth}) => auth.user, shallowEqual) as UserModel
   return (
     <>
       <AsideMenuItem
@@ -11,11 +15,26 @@ export function AsideMenuMain() {
         fontIcon='bi-chat-left'
         icon='/media/icons/duotune/arrows/arr001.svg'
       >
+         
         {/* <AsideMenuItem to='/dashboards/default' title='Default' hasBullet={true} />
         <AsideMenuItem to='/dashboards/marketing' title='Marketing' hasBullet={true} />
         <AsideMenuItem to='/dashboards/social' title='Social' hasBullet={true} />
         <AsideMenuItem to='/dashboards/eCommerce' title='eCommerce' hasBullet={true} /> */}
       </AsideMenuItem>
+{user?.roles[0]?.value == 'SUPERADMIN' && (
+  <><AsideMenuItem
+          to='/users'
+          title='Kullanıcılar'
+          fontIcon='bi-chat-left'
+          icon='/media/icons/duotune/arrows/arr001.svg'
+        ></AsideMenuItem><AsideMenuItem
+          to='/roles'
+          title='Roller'
+          fontIcon='bi-chat-left'
+          icon='/media/icons/duotune/arrows/arr001.svg'
+        ></AsideMenuItem></>
+)}
+    
       <AsideMenuItemWithSub
         to='/invoice'
         title='Faturalar'

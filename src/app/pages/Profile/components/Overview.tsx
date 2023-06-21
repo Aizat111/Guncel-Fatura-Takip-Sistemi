@@ -1,9 +1,33 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react'
-import {Link} from 'react-router-dom'
-import {KTSVG} from '../../../../_theme/helpers'
+import React, {useEffect, useState} from 'react'
+import {Button, Modal} from 'react-bootstrap'
+import { useSelector, shallowEqual } from 'react-redux'
+import { RootState } from '../../../../setup'
+import { useAppSelector } from '../../../../setup/hooks/redux'
+import { UserModel } from '../../../modules/auth/models/UserModel'
+import {ModalHeader} from '../../components/ModalHeader'
+import { Api } from '../../Services/api'
+import { EditUser } from './EditUser'
 
 export function Overview() {
+  const [show, setShow] = useState(false)
+  const handleShow = () => {
+    setShow(true)
+  }
+  const handleClose = () => {
+    setShow(false)
+  }
+  const loginUser: UserModel = useSelector<RootState>(({auth}) => auth.user, shallowEqual) as UserModel
+  const [user, setUser] = useState<any>()
+  const {refresh} = useAppSelector((state)=>state.users)
+
+  useEffect(()=>{
+    Api()
+    .users.user(loginUser.id)
+    .then((res) => {
+      setUser(res)
+    })
+  },[refresh])
   return (
     <>
       <div className='card mb-5 mb-xl-10' id='kt_profile_details_view'>
@@ -12,9 +36,9 @@ export function Overview() {
             <h3 className='fw-bolder m-0'>Hesap Detayı</h3>
           </div>
 
-          <Link to='/crafted/account/settings' className='btn btn-primary align-self-center'>
+          <Button className='btn btn-primary align-self-center' onClick={handleShow}>
             Düzenle
-          </Link>
+          </Button>
         </div>
 
         <div className='card-body p-9'>
@@ -22,7 +46,7 @@ export function Overview() {
             <label className='col-lg-4 fw-bold text-muted'>Ad Soyad</label>
 
             <div className='col-lg-8'>
-              <span className='fw-bolder fs-6 text-dark'>Sena Yılmaz</span>
+              <span className='fw-bolder fs-6 text-dark'>{user?.firstname} {user?.lastname}</span>
             </div>
           </div>
 
@@ -30,24 +54,24 @@ export function Overview() {
             <label className='col-lg-4 fw-bold text-muted'>Address</label>
 
             <div className='col-lg-8 fv-row'>
-              <span className='fw-bold fs-6'>Konya Selçuk</span>
+              <span className='fw-bold fs-6'>{user?.address}</span>
             </div>
           </div>
 
           <div className='row mb-7'>
             <label className='col-lg-4 fw-bold text-muted'>
               Telefon Numarası
-              <i
+              {/* <i
                 className='fas fa-exclamation-circle ms-1 fs-7'
                 data-bs-toggle='tooltip'
                 title='Phone number must be active'
-              ></i>
+              ></i> */}
             </label>
 
             <div className='col-lg-8 d-flex align-items-center'>
-              <span className='fw-bolder fs-6 me-2'>05524978967</span>
+              <span className='fw-bold fs-6 me-2'>{user?.phone_number}</span>
 
-              <span className='badge badge-success'>Doğrulandı</span>
+              {/* <span className='badge badge-success'>Doğrulandı</span> */}
             </div>
           </div>
 
@@ -55,9 +79,9 @@ export function Overview() {
             <label className='col-lg-4 fw-bold text-muted'>TC Kimlik No</label>
 
             <div className='col-lg-8'>
-              <a href='#' className='fw-bold fs-6 text-dark text-hover-primary'>
-                99408348128
-              </a>
+              <span className='fw-bold fs-6 text-dark '>
+               {user?.tc}
+              </span>
             </div>
           </div>
 
@@ -133,6 +157,12 @@ export function Overview() {
           {/* <TablesWidget5 className='card-xxl-stretch mb-5 mb-xl-10' /> */}
         </div>
       </div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Body>
+          <ModalHeader titleHeader={'Kullanıcı Bilgilerini Düzenle'} handleClose={handleClose} />
+          <EditUser handleClose={handleClose}/>
+        </Modal.Body>
+      </Modal>
     </>
   )
 }

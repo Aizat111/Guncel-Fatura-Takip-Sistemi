@@ -11,7 +11,7 @@ import {toAbsoluteUrl} from '../../../../_theme/helpers'
 
 const loginSchema = Yup.object().shape({
   email: Yup.string()
-    .email('Wrong email format')
+    // .email('Wrong email format')
     .min(3, 'Minimum 3 symbols')
     .max(50, 'Maximum 50 symbols')
     .required('Email is required'),
@@ -22,8 +22,8 @@ const loginSchema = Yup.object().shape({
 })
 
 const initialValues = {
-  email: 'admin@demo.com',
-  password: 'demo',
+  email: '99969092058',
+  password: '11223344',
 }
 
 /*
@@ -42,14 +42,15 @@ export function Login() {
       setLoading(true)
       setTimeout(() => {
         login(values.email, values.password)
-          .then(({data: {api_token}}) => {
+          .then((res:any) => {
+            console.log(res)
             setLoading(false)
-            dispatch(auth.actions.login(api_token))
+            dispatch(auth.actions.login(res?.data?.token,res?.data?.data))
           })
           .catch(() => {
             setLoading(false)
             setSubmitting(false)
-            setStatus('The login detail is incorrect')
+            setStatus('Kullanıcının TC numarası veya şifresi yanlış')
           })
       }, 1000)
     },
@@ -99,7 +100,7 @@ export function Login() {
               'is-valid': formik.touched.email && !formik.errors.email,
             }
           )}
-          type='email'
+          type='text'
           name='email'
           autoComplete='off'
         />
@@ -164,7 +165,7 @@ export function Login() {
           {!loading && <span className='indicator-label'>Devam</span>}
           {loading && (
             <span className='indicator-progress' style={{display: 'block'}}>
-              Please wait...
+              Lütfen Bekleyin...
               <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
             </span>
           )}

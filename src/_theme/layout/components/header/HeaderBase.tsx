@@ -6,11 +6,9 @@ import {Dropdown3} from '../../../partials/content/dropdown/Dropdown3'
 
 const HeaderBase: React.FC = () => {
   return (
-    <div id='kt_header' className='header align-items-stretch'>
-      <div className='header-brand'>
-        <Link to='/'>
-          <img alt='Logo' src={toAbsoluteUrl('/media/logos/default.svg')} className='h-25px' />
-        </Link>
+    <div id='kt_header' className='header align-items-stretch' >
+      <div className='header-brand' style={{backgroundColor: '#40a1ae'}}>
+  
 
         <div className='d-none d-lg-block'>
           <button

@@ -4,9 +4,9 @@ import {KTSVG} from '../../../helpers'
 import {PageTitle} from './page-title/PageTitle'
 import {HeaderNotificationsMenu, QuickLinks, Search} from '../../../partials'
 import {useLayout} from '../../core'
-import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import { UserModel } from '../../../../app/modules/auth/models/UserModel'
-import { RootState } from '../../../../setup'
+import {shallowEqual, useDispatch, useSelector} from 'react-redux'
+import {UserModel} from '../../../../app/modules/auth/models/UserModel'
+import {RootState} from '../../../../setup'
 import * as auth from '../../../../app/modules/auth/redux/AuthRedux'
 
 const HeaderTopbar: React.FC = () => {
@@ -28,10 +28,10 @@ const HeaderTopbar: React.FC = () => {
           <Search />
         </div> */}
 
-         <div className='d-flex'>
+        <div className='d-flex'>
           {/*<div className='d-flex align-items-center me-4'>
             {/* eslint-disable-next-line */}
-            {/* <a
+          {/* <a
               href='#'
               className='btn btn-icon btn-active-light btn-outline btn-outline-default btn-icon-gray-700 btn-active-icon-primary'
               data-kt-menu-trigger='click'
@@ -42,7 +42,7 @@ const HeaderTopbar: React.FC = () => {
               <KTSVG path='/media/icons/duotune/general/gen025.svg' className='svg-icon-1' />
             </a>
             <QuickLinks />
-          </div> */} 
+          </div> */}
 
           <div className='d-flex align-items-center me-4'>
             {/* eslint-disable-next-line */}
@@ -72,7 +72,7 @@ const HeaderTopbar: React.FC = () => {
               3
             </a>
             <HeaderNotificationsMenu /> */}
-               <a
+            <a
               href='#'
               id='kt_drawer_chat_toggle'
               className='btn btn-icon btn-active-light btn-outline btn-outline-default btn-icon-gray-700 btn-active-icon-primary'
@@ -81,14 +81,12 @@ const HeaderTopbar: React.FC = () => {
               data-kt-menu-placement='bottom-end'
               data-kt-menu-flip='bottom'
               onClick={logout}
-            >      
-            <KTSVG
-  path='/media/icons/duotune/arrows/arr015.svg'
-  className='svg-icon svg-icon-3x '
-/>
-              </a>
-   
-         
+            >
+              <KTSVG
+                path='/media/icons/duotune/arrows/arr015.svg'
+                className='svg-icon svg-icon-3x '
+              />
+            </a>
           </div>
         </div>
       </div>
