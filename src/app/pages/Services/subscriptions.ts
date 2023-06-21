@@ -7,5 +7,8 @@ export const SubscriptionApi = (instance: any) => ({
         const {data} = await instance.get('/subscription')
         return data
       },
-  
+      async deleteSubscription(id: any) {
+        const {data} = await instance.delete(`/subscription/${id}`)
+        return data
+      },
 })

@@ -10,15 +10,8 @@ import { SubItem } from './SubscriptionItem'
 
 
 export const Subscriptions: FC = () => {
-  const {refresh} = useAppSelector((state) => state.roles)
   const [subscriptions, setSubscriptions] = useState<any>([])
-  const [show, setShow] = useState(false)
-  const handleShow = () =>{
-    setShow(true)
-  }
-  const handleClose = () =>{
-    setShow(false)
-  }
+  const {refresh} = useAppSelector((state)=>state.profile)
   useEffect(() => {
     Api()
     .subscriptions.subscriptions()

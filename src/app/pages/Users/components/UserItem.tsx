@@ -35,9 +35,7 @@ export const UserItem: FC<Props> = ({user}) => {
             Swal.fire(res.message, '', 'success')
             dispatch(setRefresh())
           }
-        })
-      
-       
+        }) 
       }
     })}
 

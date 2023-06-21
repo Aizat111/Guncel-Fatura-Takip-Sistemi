@@ -10,7 +10,7 @@ import { Api } from '../../Services/api'
 
 
 export const Subscriptions: FC = () => {
-  const {refresh} = useAppSelector((state) => state.roles)
+  const {refresh} = useAppSelector((state) => state.profile)
   const [subscriptions, setSubscriptions] = useState<any>([])
   const [show, setShow] = useState(false)
   const handleShow = () =>{
