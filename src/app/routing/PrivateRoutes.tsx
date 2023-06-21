@@ -8,16 +8,18 @@ import {getCSSVariableValue} from '../../_theme/assets/ts/_utils'
 import {Home} from '../pages/Home'
 import {Profile} from '../pages/Profile'
 import {Water} from '../pages/Invoice/Water'
-import { Electric } from '../pages/Invoice/Electric'
+import {Electric} from '../pages/Invoice/Electric'
 import {Gas} from '../pages/Invoice/Gas'
 import {OldWater} from '../pages/OldInvoice/Water'
-import { OldElectric } from '../pages/OldInvoice/Electric'
+import {OldElectric} from '../pages/OldInvoice/Electric'
 import {OldGas} from '../pages/OldInvoice/Gas'
 import Cards from '../pages/Cards/Cards/Cards'
-import { Homepage } from '../pages/Cards/Homepage'
+import {Homepage} from '../pages/Cards/Homepage'
 
-import { Roles } from '../pages/Roles/Roles'
-import { Users } from '../pages/Users/Users'
+import {Roles} from '../pages/Roles/Roles'
+import {Users} from '../pages/Users/Users'
+import {Subscriptions} from '../pages/Profile/components/Subscriptions'
+import {UserDetail} from '../pages/Users/UserDetail'
 
 const PrivateRoutes = () => {
   const BuilderPageWrapper = lazy(() => import('../pages/layout-builder/BuilderPageWrapper'))
@@ -45,66 +47,18 @@ const PrivateRoutes = () => {
         />
         <Route path='menu-test' element={<MenuTestPage />} />
         {/* Lazy Modules */}
-        <Route
-          path='/profile/*'
-          element={
-            <Profile/>
-          }
-        />
-        <Route
-        path='/users/*'
-        element={
-          <Users/>
-        }
-        />
-           <Route
-        path='/roles/*'
-        element={
-          <Roles/>
-        }
-        />
-          <Route
-          path='/invoice/*'
-          element={
-            <Water/>
-          }
-        />
-           <Route
-          path='/invoice/electric'
-          element={
-            <Electric/>
-          }
-        />
-          <Route
-          path='/invoice/gas'
-          element={
-            <Gas/>
-          }
-        />
-        <Route
-          path='/old-invoice/*'
-          element={
-            <OldWater/>
-          }
-        />
-           <Route
-          path='/old-invoice/electric'
-          element={
-            <OldElectric/>
-          }
-        />
-          <Route
-          path='/old-invoice/gas'
-          element={
-            <OldGas/>
-          }
-        />
-         <Route
-          path='/cards/*'
-          element={
-            <Homepage/>
-          }
-        />
+        <Route path='/profile/*' element={<Profile />} />
+        <Route path='/profile/subscriptions' element={<Subscriptions />} />
+        <Route path='/users/*' element={<Users />} />
+        <Route path='/users/detail' element={<UserDetail />} />
+        <Route path='/roles/*' element={<Roles />} />
+        <Route path='/invoice/*' element={<Water />} />
+        <Route path='/invoice/electric' element={<Electric />} />
+        <Route path='/invoice/gas' element={<Gas />} />
+        <Route path='/old-invoice/*' element={<OldWater />} />
+        <Route path='/old-invoice/electric' element={<OldElectric />} />
+        <Route path='/old-invoice/gas' element={<OldGas />} />
+        <Route path='/cards/*' element={<Homepage />} />
         <Route
           path='crafted/pages/wizards/*'
           element={

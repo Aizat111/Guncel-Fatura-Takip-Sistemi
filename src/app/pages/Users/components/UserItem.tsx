@@ -7,6 +7,8 @@ import Swal from 'sweetalert2'
 import { Api } from '../../Services/api'
 import { useDispatch } from 'react-redux'
 import { setRefresh } from '../reducers/UserSlice'
+import AddSubscription from './AddSubscription'
+import { Link, NavLink } from 'react-router-dom'
 
 // import swal from 'sweetalert'
 
@@ -46,12 +48,21 @@ export const UserItem: FC<Props> = ({user}) => {
   const handleShow = () => {
     setShowmodal(true)
   }
-
+  const [showSubModal, setShowSubmodal] = useState(false)
+  const handleCloseSub = () => {
+    setShowSubmodal(false)
+  }
+  const handleShowSub = () => {
+    setShowSubmodal(true)
+  }
   return (
     <>
       <tr>
         <td className='fw-bold'>
+
+        <NavLink to='detail' state={user} className='menu-link px-3 text-black'>
          {user?.firstname} {user?.lastname}
+         </NavLink>
         </td>
         <td className='text-gray-500'>{user?.email}</td>
         <td className='text-gray-500'>{user?.phone_number}</td>
@@ -68,6 +79,10 @@ export const UserItem: FC<Props> = ({user}) => {
                 {' '}
                 <span className='menu-link px-3'>Düzenle</span>
               </Dropdown.Item>
+              <Dropdown.Item onClick={handleShowSub}>
+                {' '}
+                <span className='menu-link px-3'>Fatura ata</span>
+              </Dropdown.Item>
               <Dropdown.Item
               onClick={()=>deleteUser(user.id)}
               >
@@ -81,6 +96,12 @@ export const UserItem: FC<Props> = ({user}) => {
         <Modal.Body>
           <ModalHeader handleClose={handleClose} titleHeader={'Düzenle'} />
           <AddUser user={user} update={true} handleClose={handleClose}/>
+        </Modal.Body>
+      </Modal>
+      <Modal show={showSubModal} onHide={handleCloseSub}>
+        <Modal.Body>
+          <ModalHeader handleClose={handleCloseSub} titleHeader={'Yeni Üyelik'} />
+          <AddSubscription handleClose={handleCloseSub} user_id={user.id}/>
         </Modal.Body>
       </Modal>
     </>

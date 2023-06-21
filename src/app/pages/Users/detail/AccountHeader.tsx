@@ -1,23 +1,26 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from 'react'
-import {KTSVG, toAbsoluteUrl} from '../../../_theme/helpers'
-import {Link} from 'react-router-dom'
-import {Dropdown1} from '../../../_theme/partials'
-import {useLocation} from 'react-router'
 import { useSelector, shallowEqual } from 'react-redux'
-import { RootState } from '../../../setup'
-import { UserModel } from '../../modules/auth/models/UserModel'
-import { useAppSelector } from '../../../setup/hooks/redux'
-import { Api } from '../Services/api'
 
-const AccountHeader: React.FC = () => {
+import {Link, useLocation} from 'react-router-dom'
+import { RootState } from '../../../../setup'
+import { useAppSelector } from '../../../../setup/hooks/redux'
+import { KTSVG } from '../../../../_theme/helpers'
+import { UserModel } from '../../../modules/auth/models/UserModel'
+import { Api } from '../../Services/api'
+
+type Props = {
+  user_id: any
+}
+const AccountHeader: React.FC<Props> = ({user_id}) => {
   const loginUser: UserModel = useSelector<RootState>(({auth}) => auth.user, shallowEqual) as UserModel
   const [user, setUser] = useState<any>()
   const {refresh} = useAppSelector((state)=>state.users)
   const location = useLocation()
+
   useEffect(()=>{
     Api()
-    .users.user(loginUser.id)
+    .users.user(user_id)
     .then((res) => {
       setUser(res)
     })
@@ -191,7 +194,7 @@ const AccountHeader: React.FC = () => {
           </div>
         </div>
 
-        <div className='d-flex overflow-auto h-55px'>
+        {/* <div className='d-flex overflow-auto h-55px'>
           <ul className='nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bolder flex-nowrap'>
             <li className='nav-item'>
               <Link
@@ -215,7 +218,7 @@ const AccountHeader: React.FC = () => {
               </Link>
             </li>
           </ul>
-        </div>
+        </div> */}
       </div>
     </div>
   )

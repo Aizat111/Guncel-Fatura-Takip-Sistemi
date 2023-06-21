@@ -2,8 +2,8 @@ import React from 'react'
 import {Navigate, Outlet, Route, Routes} from 'react-router-dom'
 import {PageLink, PageTitle} from '../../../_theme/layout/core'
 import {Overview} from './components/Overview'
-import {Settings} from './components/settings/Settings'
 import {AccountHeader} from './AccountHeader'
+import { Subscriptions } from './components/Subscriptions'
 
 const accountBreadCrumbs: Array<PageLink> = [
   {
@@ -36,21 +36,21 @@ const AccountPage: React.FC = () => {
           path='overview'
           element={
             <>
-              <PageTitle breadcrumbs={accountBreadCrumbs}>Overview</PageTitle>
+              <PageTitle breadcrumbs={accountBreadCrumbs}>Hakkında</PageTitle>
               <Overview />
             </>
           }
         />
         <Route
-          path='settings'
+          path='subscriptions'
           element={
             <>
-              <PageTitle breadcrumbs={accountBreadCrumbs}>Settings</PageTitle>
-              <Settings />
+              <PageTitle breadcrumbs={accountBreadCrumbs}>Üyelikler</PageTitle>
+              <Subscriptions />
             </>
           }
         />
-        <Route index element={<Navigate to='/profile/overview' />} />
+        <Route index element={<Navigate to='./overview' />} />
       </Route>
     </Routes>
   )
