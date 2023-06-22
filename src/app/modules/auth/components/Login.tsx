@@ -64,16 +64,16 @@ export function Login() {
       {/* begin::Heading */}
       <div className='text-center mb-10'>
         <h1 className='text-dark mb-3'>Güncel Fatura Takip Sistemine Hoş Geldin!</h1>
-        <div className='text-gray-400 fw-bold fs-4'>
+        {/* <div className='text-gray-400 fw-bold fs-4'>
           Burda Yeni Misin?{' '}
           <Link to='/auth/registration' className='link-primary fw-bolder'>
             Kayıt Ol
           </Link>
-        </div>
+        </div> */}
       </div>
       {/* begin::Heading */}
 
-      {formik.status ? (
+      {/* {formik.status ? (
         <div className='mb-lg-15 alert alert-danger'>
           <div className='alert-text font-weight-bold'>{formik.status}</div>
         </div>
@@ -83,7 +83,7 @@ export function Login() {
              <strong>admin@demo.com</strong> kullanıcı ismini ve  <strong>demo</strong> şifresini kulllanarak giriş yap
           </div>
         </div>
-      )}
+      )} */}
 
       {/* begin::Form group */}
       <div className='fv-row mb-10'>
@@ -118,13 +118,13 @@ export function Login() {
             <label className='form-label fw-bolder text-dark fs-6 mb-0'>Şifre</label>
             {/* end::Label */}
             {/* begin::Link */}
-            <Link
+            {/* <Link
               to='/auth/forgot-password'
               className='link-primary fs-6 fw-bolder'
               style={{marginLeft: '5px'}}
             >
               Şifremi Unuttum
-            </Link>
+            </Link> */}
             {/* end::Link */}
           </div>
         </div>
