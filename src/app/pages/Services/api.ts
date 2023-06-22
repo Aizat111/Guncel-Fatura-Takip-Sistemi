@@ -1,3 +1,4 @@
+import { BillApi } from './bills';
 import { UserApi } from './users';
 import { RoleApi } from './roles';
 import axios from "axios"
@@ -15,6 +16,7 @@ export const Api = () => {
     return {
       roles: RoleApi(instance),
       users: UserApi(instance),
-      subscriptions: SubscriptionApi(instance)
+      subscriptions: SubscriptionApi(instance),
+      bills: BillApi(instance)
     }
   }

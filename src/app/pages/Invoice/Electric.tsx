@@ -1,217 +1,147 @@
-import { FC } from "react"
+import moment from 'moment'
+import {FC, useEffect, useState} from 'react'
+import {shallowEqual, useDispatch, useSelector} from 'react-redux'
+import {Api} from '../Services/api'
+import Swal from 'sweetalert2'
+import {setRefresh} from './reducers/BillSlice'
+import {useAppSelector} from '../../../setup/hooks/redux'
+import { RootState } from '../../../setup'
+import { UserModel } from '../../modules/auth/models/UserModel'
+export const Electric: FC = () => {
+  const [bill, setBill] = useState<any>(null)
+  const {refresh} = useAppSelector((state) => state.bills)
+  const dispatch = useDispatch()
+  const loginUser: UserModel = useSelector<RootState>(({auth}) => auth.user, shallowEqual) as UserModel
+  useEffect(() => {
+    Api()
+      .bills.bills(`?product=ELEKTRİK&status=0&subscriberNo=${loginUser.subscription[0].subscription_no}`)
+      .then((res) => {
+        if (res.length > 0) {
+          setBill(res[0])
+        } else {
+          setBill(null)
+        }
+      })
+  }, [refresh])
 
-export const Electric :FC=()=>{
-return(
-    <div className='card mb-5 mb-xl-10' id='kt_profile_details_view'>
-    <div className='card-header cursor-pointer'>
-      <div className='card-title m-0'>
-        <h3 className='fw-bolder m-0'>Fatura Detayı</h3>
+  const handleUpdate = () => {
+    Api()
+      .bills.payBill(bill.id)
+      .then((res) => {
+        Swal.fire({
+          title: 'Başarılı!',
+          text: 'Fatura Ödeme Talebiniz Alındı',
+          icon: 'success',
+          confirmButtonText: 'Tamam',
+        })
+        dispatch(setRefresh())
+      })
+  }
+  return bill == null ? (
+    <div className='card mb-5 mb-xl-10'>
+      <div className='card-header  border-bottom-0'>
+        <div className='card-title'>
+          <p className='text-center fs-5 w-100'>Mevcut Ödenememiş Faturanız Bulunmamaktadır!</p>
+        </div>
       </div>
-<div className="mt-2">
-<span className='btn btn-secondary align-self-center fs-2 me-2'>
-        Ödenecek Tutar: 75 ₺
-      </span>
-      <span className='btn btn-primary align-self-center fs-2'>
-        Öde
-      </span>
-</div>
-     
     </div>
-
-    <div className='card-body p-9'>
-      <div className='row mb-7'>
-        <label className='col-lg-4 fw-bold text-muted'>Abone No</label>
-
-        <div className='col-lg-8'>
-          <span className='fw-bolder fs-6 text-dark'>1363900</span>
+  ) : (
+    <div className='card mb-5 mb-xl-10' id='kt_profile_details_view'>
+      <div className='card-header cursor-pointer'>
+        <div className='card-title m-0'>
+          <h3 className='fw-bolder m-0'>Fatura Detayı</h3>
+        </div>
+        <div className='mt-2'>
+          <span className='btn btn-secondary align-self-center fs-2 me-2'>
+            Ödenecek Tutar: {bill?.billAmount} ₺
+          </span>
+          <span className='btn btn-primary align-self-center fs-2' onClick={handleUpdate}>
+            Öde
+          </span>
         </div>
       </div>
 
-      <div className='row mb-7'>
-        <label className='col-lg-4 fw-bold text-muted'>Dönem</label>
+      <div className='card-body p-9'>
+        <div className='row mb-7'>
+          <label className='col-lg-4 fw-bold text-muted'>Abone No</label>
 
-        <div className='col-lg-8 fv-row'>
-          <span className='fw-bold fs-6'>202210</span>
-        </div>
-      </div>
-
-      <div className='row mb-7'>
-        <label className='col-lg-4 fw-bold text-muted'>
-          Fatura Tarihi
-          {/* <i
-            className='fas fa-exclamation-circle ms-1 fs-7'
-            data-bs-toggle='tooltip'
-            title='Phone number must be active'
-          ></i> */}
-        </label>
-
-        <div className='col-lg-8 d-flex align-items-center'>
-          <span className='fw-bolder fs-6 me-2'>25.10.2022</span>
-
-          {/* <span className='badge badge-success'>Doğrulandı</span> */}
-        </div>
-      </div>
-
-      <div className='row mb-7'>
-        <label className='col-lg-4 fw-bold text-muted'>Fatura No</label>
-
-        <div className='col-lg-8'>
-          <a href='#' className='fw-bold fs-6 text-dark text-hover-primary'>
-           918883950
-          </a>
-        </div>
-      </div>
-      <div className='row mb-7'>
-        <label className='col-lg-4 fw-bold text-muted'>Addresi</label>
-
-        <div className='col-lg-8'>
-          <a href='#' className='fw-bold fs-6 text-dark text-hover-primary'>
-           Konya, Selçuk
-          </a>
-        </div>
-      </div>
-      <div className='row mb-7'>
-        <label className='col-lg-4 fw-bold text-muted'>Abone Türü</label>
-
-        <div className='col-lg-8'>
-          <a href='#' className='fw-bold fs-6 text-dark text-hover-primary'>
-          Mesken / Ev Apartman
-          </a>
-        </div>
-      </div>
-      <div className='row mb-7'>
-        <label className='col-lg-4 fw-bold text-muted'>İlk Okuma Tarihi</label>
-
-        <div className='col-lg-8'>
-          <a href='#' className='fw-bold fs-6 text-dark text-hover-primary'>
-           27.09.2022
-          </a>
-        </div>
-      </div>
-      <div className='row mb-7'>
-        <label className='col-lg-4 fw-bold text-muted'>Son Okuma Tarihi</label>
-
-        <div className='col-lg-8'>
-          <a href='#' className='fw-bold fs-6 text-dark text-hover-primary'>
-          25.10.2022
-          </a>
-        </div>
-      </div>
-      <div className='row mb-7'>
-        <label className='col-lg-4 fw-bold text-muted'>Sayaç No</label>
-
-        <div className='col-lg-8'>
-          <a href='#' className='fw-bold fs-6 text-dark text-hover-primary'>
-           10961231
-          </a>
-        </div>
-      </div>
-      <div className='row mb-7'>
-        <label className='col-lg-4 fw-bold text-muted'>Okuyucu No</label>
-
-        <div className='col-lg-8'>
-          <a href='#' className='fw-bold fs-6 text-dark text-hover-primary'>
-           64
-          </a>
-        </div>
-      </div>
-      <div className='row mb-7'>
-        <label className='col-lg-4 fw-bold text-muted'>Okuma Kodu</label>
-
-        <div className='col-lg-8'>
-          <a href='#' className='fw-bold fs-6 text-dark text-hover-primary'>
-           1
-          </a>
-        </div>
-      </div>
-      <div className='row mb-7'>
-        <label className='col-lg-4 fw-bold text-muted'>İlk Endeks</label>
-
-        <div className='col-lg-8'>
-          <a href='#' className='fw-bold fs-6 text-dark text-hover-primary'>
-           47
-          </a>
-        </div>
-      </div>
-      <div className='row mb-7'>
-        <label className='col-lg-4 fw-bold text-muted'>Son Endeks</label>
-
-        <div className='col-lg-8'>
-          <a href='#' className='fw-bold fs-6 text-dark text-hover-primary'>
-           52
-          </a>
-        </div>
-      </div>
-      <div className='row mb-7'>
-        <label className='col-lg-4 fw-bold text-muted'>İlave/ İade</label>
-
-        <div className='col-lg-8'>
-          <a href='#' className='fw-bold fs-6 text-dark text-hover-primary'>
-           0
-          </a>
-        </div>
-      </div>
-      <div className='row mb-7'>
-        <label className='col-lg-4 fw-bold text-muted'>Sarfiyat</label>
-
-        <div className='col-lg-8'>
-          <a href='#' className='fw-bold fs-6 text-dark text-hover-primary'>
-           5
-          </a>
-        </div>
-      </div>
-
-      {/* <div className='row mb-7'>
-        <label className='col-lg-4 fw-bold text-muted'>
-          Country
-          <i
-            className='fas fa-exclamation-circle ms-1 fs-7'
-            data-bs-toggle='tooltip'
-            title='Country of origination'
-          ></i>
-        </label>
-
-        <div className='col-lg-8'>
-          <span className='fw-bolder fs-6 text-dark'>Germany</span>
-        </div>
-      </div> */}
-
-      {/* <div className='row mb-7'>
-        <label className='col-lg-4 fw-bold text-muted'>Communication</label>
-
-        <div className='col-lg-8'>
-          <span className='fw-bolder fs-6 text-dark'>Email, Phone</span>
-        </div>
-      </div> */}
-
-      {/* <div className='row mb-10'>
-        <label className='col-lg-4 fw-bold text-muted'>Allow Changes</label>
-
-        <div className='col-lg-8'>
-          <span className='fw-bold fs-6'>Yes</span>
-        </div>
-      </div> */}
-
-      {/* <div className='notice d-flex bg-light-warning rounded border-warning border border-dashed p-6'>
-        <KTSVG
-          path='icons/duotune/general/gen044.svg'
-          className='svg-icon-2tx svg-icon-warning me-4'
-        />
-        <div className='d-flex flex-stack flex-grow-1'>
-          <div className='fw-bold'>
-            <h4 className='text-gray-800 fw-bolder'>We need your attention!</h4>
-            <div className='fs-6 text-gray-600'>
-              Your payment was declined. To start using tools, please
-              <Link className='fw-bolder' to='/crafted/account/settings'>
-                {' '}
-                Add Payment Method
-              </Link>
-              .
-            </div>
+          <div className='col-lg-8'>
+            <span className='fw-bolder fs-6 text-dark'>{bill?.subscriberNo}</span>
           </div>
         </div>
-      </div> */}
+
+        <div className='row mb-7'>
+          <label className='col-lg-4 fw-bold text-muted'>Dönem</label>
+
+          <div className='col-lg-8 fv-row'>
+            <span className='fw-bold fs-6'>{moment(bill?.billIssueDate).format('YYYYMM')}</span>
+          </div>
+        </div>
+
+        <div className='row mb-7'>
+          <label className='col-lg-4 fw-bold text-muted'>Adres</label>
+
+          <div className='col-lg-8 fv-row'>
+            <span className='fw-bold fs-6'>{bill.provisionCode}</span>
+          </div>
+        </div>
+
+        <div className='row mb-7'>
+          <label className='col-lg-4 fw-bold text-muted'>Fatura Tarihi</label>
+
+          <div className='col-lg-8 d-flex align-items-center'>
+            <span className='fw-bolder fs-6 me-2'>
+              {moment(bill?.billIssueDate).format('DD.MM.YYYY')}
+            </span>
+
+            {/* <span className='badge badge-success'>Doğrulandı</span> */}
+          </div>
+        </div>
+
+        <div className='row mb-7'>
+          <label className='col-lg-4 fw-bold text-muted'>Fatura No</label>
+
+          <div className='col-lg-8'>
+            <span className='fw-bold fs-6 text-dark '>{bill?.billNo}</span>
+          </div>
+        </div>
+        <div className='row mb-7'>
+          <label className='col-lg-4 fw-bold text-muted'>Son Ödeme Tarihi</label>
+
+          <div className='col-lg-8'>
+            <span className='fw-bold fs-6 text-dark'>
+              {moment(bill?.billDueDate).format('DD.MM.YYYY')}
+            </span>
+          </div>
+        </div>
+        <div className='row mb-7'>
+          <label className='col-lg-4 fw-bold text-muted'>Abone Türü</label>
+
+          <div className='col-lg-8'>
+            <span className='fw-bold fs-6 text-dark '>
+            {bill.channelCode}
+            </span>
+          </div>
+        </div>
+        <div className='row mb-7'>
+          <label className='col-lg-4 fw-bold text-muted'>İlk Okuma Tarihi</label>
+
+          <div className='col-lg-8'>
+            <span className='fw-bold fs-6 text-dark'>
+        {bill.agentCode}
+            </span>
+          </div>
+        </div>
+        <div className='row mb-7'>
+          <label className='col-lg-4 fw-bold text-muted'>Son Okuma Tarihi</label>
+
+          <div className='col-lg-8'>
+          <span className='fw-bold fs-6 text-dark'>
+        {bill.institution}
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-)
+  )
 }

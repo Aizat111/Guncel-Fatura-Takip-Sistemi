@@ -1,27 +1,40 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import {KTSVG, toAbsoluteUrl} from '../../../_theme/helpers'
 import {Link} from 'react-router-dom'
 import {Dropdown1} from '../../../_theme/partials'
 import {useLocation} from 'react-router'
-import { useSelector, shallowEqual } from 'react-redux'
-import { RootState } from '../../../setup'
-import { UserModel } from '../../modules/auth/models/UserModel'
-import { useAppSelector } from '../../../setup/hooks/redux'
-import { Api } from '../Services/api'
+import {useSelector, shallowEqual} from 'react-redux'
+import {RootState} from '../../../setup'
+import {UserModel} from '../../modules/auth/models/UserModel'
+import {useAppSelector} from '../../../setup/hooks/redux'
+import {Api} from '../Services/api'
 
 const AccountHeader: React.FC = () => {
-  const loginUser: UserModel = useSelector<RootState>(({auth}) => auth.user, shallowEqual) as UserModel
+  const loginUser: UserModel = useSelector<RootState>(
+    ({auth}) => auth.user,
+    shallowEqual
+  ) as UserModel
   const [user, setUser] = useState<any>()
-  const {refresh} = useAppSelector((state)=>state.users)
+  const {refresh} = useAppSelector((state) => state.users)
+  const [statistics, setStatistics] = useState<any>()
   const location = useLocation()
-  useEffect(()=>{
+  useEffect(() => {
     Api()
-    .users.user(loginUser.id)
-    .then((res) => {
-      setUser(res)
+      .users.user(loginUser.id)
+      .then((res) => {
+        setUser(res)
+      })
+    let subscriberNo = ''
+    loginUser.subscription.map((sub) => {
+      subscriberNo += '&subscriberNo=' + sub.subscription_no
     })
-  },[refresh])
+    Api()
+      .bills.getBillStatistic('?status=0' + subscriberNo)
+      .then((res) => {
+        setStatistics(res)
+      })
+  }, [refresh])
   return (
     <div className='card mb-5 mb-xl-10'>
       <div className='card-body pt-9 pb-0'>
@@ -29,12 +42,12 @@ const AccountHeader: React.FC = () => {
           <div className='me-7 mb-4'>
             <div className='symbol symbol-100px symbol-lg-160px symbol-fixed position-relative'>
               {/* <img src={toAbsoluteUrl('/media/avatars/300-1.jpg')} alt='Good' /> */}
-              <img 
-            style={{height: '150px', width: 'auto', borderRadius: '50%'}}
-            src='https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=800'
-            className='rounded'
-            alt='profil_photo'
-            />
+              <img
+                style={{height: '150px', width: 'auto', borderRadius: '50%'}}
+                src='https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=800'
+                className='rounded'
+                alt='profil_photo'
+              />
               {/* <div className='position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-white h-20px w-20px'></div> */}
             </div>
           </div>
@@ -44,14 +57,13 @@ const AccountHeader: React.FC = () => {
               <div className='d-flex flex-column'>
                 <div className='d-flex align-items-center mb-2'>
                   <a href='#' className='text-gray-800 text-hover-primary fs-2 fw-bolder me-1'>
-                 {user?.firstname} {user?.lastname}
+                    {user?.firstname} {user?.lastname}
                   </a>
                   <a href='#'>
                     <KTSVG
                       path='/media/icons/duotune/general/gen026.svg'
                       className='svg-icon-1 svg-icon-primary'
                     />
- 
                   </a>
                   {/* <a
                     href='#'
@@ -82,7 +94,8 @@ const AccountHeader: React.FC = () => {
                       path='/media/icons/duotune/general/gen018.svg'
                       className='svg-icon-4 me-1'
                     />
-                   {user?.address.substring(0,20)}{ user?.address.length >20 ? '...' : ''}
+                    {user?.address.substring(0, 20)}
+                    {user?.address.length > 20 ? '...' : ''}
                   </a>
                   <a
                     href='#'
@@ -116,7 +129,7 @@ const AccountHeader: React.FC = () => {
                   data-bs-toggle='modal'
                   data-bs-target='#kt_modal_offer_a_deal'
                 >
-                 Şifre Değiştir
+                  Şifre Değiştir
                 </a>
                 {/* <div className='me-0'>
                   <button
@@ -136,19 +149,23 @@ const AccountHeader: React.FC = () => {
               <div className='d-flex flex-column flex-grow-1 pe-8'>
                 <h4>Borçları</h4>
                 <div className='d-flex flex-wrap'>
-                  <div className='border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3'>
-                    <div className='d-flex align-items-center'>
-                      <KTSVG
-                        path='/media/icons/duotune/arrows/arr065.svg'
-                        className='svg-icon-3 svg-icon-danger me-2'
-                      />
-                      <div className='fs-2 fw-bolder'>45₺</div>
-                    </div>
+                  {statistics?.map((stat: any) => {
+                    return (
+                      <div className='border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3'>
+                        <div className='d-flex align-items-center'>
+                          <KTSVG
+                            path='/media/icons/duotune/arrows/arr065.svg'
+                            className='svg-icon-3 svg-icon-danger me-2'
+                          />
+                          <div className='fs-2 fw-bolder'>{stat?.total_amount}₺</div>
+                        </div>
 
-                    <div className='fw-bold fs-6 text-gray-400'>Su</div>
-                  </div>
+                        <div className='fw-bold fs-6 text-gray-400'>{stat.product}</div>
+                      </div>
+                    )
+                  })}
 
-                  <div className='border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3'>
+                  {/* <div className='border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3'>
                     <div className='d-flex align-items-center'>
                       <KTSVG
                         path='/media/icons/duotune/arrows/arr065.svg'
@@ -170,7 +187,7 @@ const AccountHeader: React.FC = () => {
                     </div>
 
                     <div className='fw-bold fs-6 text-gray-400'>Doğal Gaz</div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
 
@@ -197,10 +214,11 @@ const AccountHeader: React.FC = () => {
               <Link
                 className={
                   `nav-link text-active-primary me-6 ` +
-                  (location.pathname?.split('/')[2] === 'overview' && 'active')}
+                  (location.pathname?.split('/')[2] === 'overview' && 'active')
+                }
                 to='/profile/overview'
               >
-               Hakkında
+                Hakkında
               </Link>
             </li>
             <li className='nav-item'>

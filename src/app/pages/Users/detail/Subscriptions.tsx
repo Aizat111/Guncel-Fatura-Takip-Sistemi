@@ -8,17 +8,20 @@ import { Api } from '../../Services/api'
 
 
 
-
-export const Subscriptions: FC = () => {
+type Props = {
+  user_id: string
+}
+export const Subscriptions: FC<Props> = ({user_id}) => {
   const {refresh} = useAppSelector((state) => state.profile)
   const [subscriptions, setSubscriptions] = useState<any>([])
-  const [show, setShow] = useState(false)
-  const handleShow = () =>{
-    setShow(true)
-  }
-  const handleClose = () =>{
-    setShow(false)
-  }
+
+  useEffect(()=>{
+    Api()
+    .users.user(user_id)
+    .then((res) => {
+      setSubscriptions(res.subscription)
+    })
+  },[refresh])
   useEffect(() => {
     Api()
     .subscriptions.subscriptions()

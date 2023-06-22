@@ -7,12 +7,10 @@ import {Link} from 'react-router-dom'
 import {useFormik} from 'formik'
 import * as auth from '../redux/AuthRedux'
 import {login} from '../redux/AuthCRUD'
-import {toAbsoluteUrl} from '../../../../_theme/helpers'
 
 const loginSchema = Yup.object().shape({
   email: Yup.string()
     // .email('Wrong email format')
-    .min(3, 'Minimum 3 symbols')
     .max(50, 'Maximum 50 symbols')
     .required('Email is required'),
   password: Yup.string()
@@ -22,7 +20,7 @@ const loginSchema = Yup.object().shape({
 })
 
 const initialValues = {
-  email: '99969092058',
+  email: '-1',
   password: '11223344',
 }
 

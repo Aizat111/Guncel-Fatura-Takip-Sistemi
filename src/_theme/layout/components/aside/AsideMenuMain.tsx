@@ -1,9 +1,9 @@
 import {AsideMenuItemWithSub} from './AsideMenuItemWithSub'
 import {AsideMenuItem} from './AsideMenuItem'
 import {KTSVG} from '../../../helpers'
-import { useSelector, shallowEqual } from 'react-redux'
-import { UserModel } from '../../../../app/modules/auth/models/UserModel'
-import { RootState } from '../../../../setup'
+import {useSelector, shallowEqual} from 'react-redux'
+import {UserModel} from '../../../../app/modules/auth/models/UserModel'
+import {RootState} from '../../../../setup'
 
 export function AsideMenuMain() {
   const user: UserModel = useSelector<RootState>(({auth}) => auth.user, shallowEqual) as UserModel
@@ -15,76 +15,78 @@ export function AsideMenuMain() {
         fontIcon='bi-chat-left'
         icon='/media/icons/duotune/arrows/arr001.svg'
       >
-         
         {/* <AsideMenuItem to='/dashboards/default' title='Default' hasBullet={true} />
         <AsideMenuItem to='/dashboards/marketing' title='Marketing' hasBullet={true} />
         <AsideMenuItem to='/dashboards/social' title='Social' hasBullet={true} />
         <AsideMenuItem to='/dashboards/eCommerce' title='eCommerce' hasBullet={true} /> */}
       </AsideMenuItem>
-{user?.roles[0]?.value == 'SUPERADMIN' && (
-  <><AsideMenuItem
-          to='/users'
-          title='Kullanıcılar'
-          fontIcon='bi-chat-left'
+      {user?.roles[0]?.value == 'SUPERADMIN' && (
+        <>
+          <AsideMenuItem
+            to='/users'
+            title='Kullanıcılar'
+            fontIcon='bi-chat-left'
+            icon='/media/icons/duotune/arrows/arr001.svg'
+          ></AsideMenuItem>
+          <AsideMenuItem
+            to='/roles'
+            title='Roller'
+            fontIcon='bi-chat-left'
+            icon='/media/icons/duotune/arrows/arr001.svg'
+          ></AsideMenuItem>
+        </>
+      )}
+      {user?.roles[0]?.value == 'SUPERADMIN' ? (
+        <AsideMenuItem
+          to='/invoices'
+          title='Faturalar'
           icon='/media/icons/duotune/arrows/arr001.svg'
-        ></AsideMenuItem><AsideMenuItem
-          to='/roles'
-          title='Roller'
-          fontIcon='bi-chat-left'
+          fontIcon='bi-person'
+        />
+      ) : (
+        <AsideMenuItemWithSub
+          to='/invoice'
+          title='Faturalar'
+          fontIcon='bi-archive'
           icon='/media/icons/duotune/arrows/arr001.svg'
-        ></AsideMenuItem></>
-)}
-    
-      <AsideMenuItemWithSub
-        to='/invoice'
-        title='Faturalar'
-        fontIcon='bi-archive'
-        icon='/media/icons/duotune/arrows/arr001.svg'
-      >
-        <AsideMenuItem to='/invoice/water' title='Su' hasBullet={true}/>
+        >
+          <AsideMenuItem to='/invoice/water' title='Su' hasBullet={true} />
           <AsideMenuItem to='/invoice/electric' title='Elektrik' hasBullet={true} />
           <AsideMenuItem to='/invoice/gas' title='Gaz' hasBullet={true} />
-          {/* <AsideMenuItem to='/crafted/pages/profile/campaigns' title='Campaigns' hasBullet={true} />
-          <AsideMenuItem to='/crafted/pages/profile/documents' title='Documents' hasBullet={true} /> 
-           <AsideMenuItem
-            to='/crafted/pages/profile/connections'
-            title='Connections'
-            hasBullet={true}
-          />  */}
-        {/* </AsideMenuItemWithSub>
+        </AsideMenuItemWithSub>
+      )}
+      {user?.roles[0]?.value == 'SUPERADMIN' ? (
+        <AsideMenuItem
+          to='/old-invoices'
+          title='Geçmiş Faturalar'
+          icon='/media/icons/duotune/arrows/arr001.svg'
+          fontIcon='bi-person'
+        />
+      ) : (
+        <AsideMenuItemWithSub
+          to='/old-invoice'
+          title='Geçmiş Faturalar'
+          icon='/media/icons/duotune/arrows/arr001.svg'
+          fontIcon='bi-person'
+        >
+          <AsideMenuItem to='/old-invoice/water' title='Su' hasBullet={true} />
+          <AsideMenuItem to='/old-invoice/electric' title='Elektrik' hasBullet={true} />
+          <AsideMenuItem to='/old-invoice/gas' title='Gaz' hasBullet={true} />
+        </AsideMenuItemWithSub>
+      )}
 
-        {/* <AsideMenuItemWithSub to='/crafted/pages/wizards' title='Wizards' hasBullet={true}>
-          <AsideMenuItem
-            to='/crafted/pages/wizards/horizontal'
-            title='Horizontal'
-            hasBullet={true}
-          />
-          <AsideMenuItem to='/crafted/pages/wizards/vertical' title='Vertical' hasBullet={true} />
-        </AsideMenuItemWithSub> */}
-      </AsideMenuItemWithSub>
-      <AsideMenuItemWithSub
-        to='/old-invoice'
-        title='Geçmiş Faturalar'
+      <AsideMenuItem
+        to='/profile'
+        title='Hesabım'
         icon='/media/icons/duotune/arrows/arr001.svg'
         fontIcon='bi-person'
-      >
-        <AsideMenuItem to='/old-invoice/water' title='Su' hasBullet={true} />
-        <AsideMenuItem to='/old-invoice/electric' title='Elektrik' hasBullet={true} />
-        <AsideMenuItem to='/old-invoice/gas' title='Gaz' hasBullet={true} />
-      </AsideMenuItemWithSub>
-      {/* <AsideMenuItemWithSub
-        to='/error'
-        title='Errors'
-        fontIcon='bi-sticky'
+      />
+      <AsideMenuItem
+        to='/cards'
+        title='Cüzdan'
         icon='/media/icons/duotune/arrows/arr001.svg'
-      >
-        <AsideMenuItem to='/error/404' title='Error 404' hasBullet={true} />
-        <AsideMenuItem to='/error/500' title='Error 500' hasBullet={true} />
-      </AsideMenuItemWithSub> */}
-        <AsideMenuItem to='/profile' title='Hesabım' icon='/media/icons/duotune/arrows/arr001.svg'
-        fontIcon='bi-person'/>
-      <AsideMenuItem to='/cards' title='Cüzdan' icon='/media/icons/duotune/arrows/arr001.svg'
-        fontIcon='bi-person'/>
+        fontIcon='bi-person'
+      />
       {/* <AsideMenuItemWithSub
         to='/apps/chat'
         title='Chat'

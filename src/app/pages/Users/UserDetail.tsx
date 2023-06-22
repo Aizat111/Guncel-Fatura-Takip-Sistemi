@@ -15,7 +15,7 @@ export const UserDetail: FC = () => {
        <>
        <AccountHeader user_id={user.id}/>
        {/* <Overview/> */}
-       <Subscriptions/>
+       <Subscriptions user_id={user.id}/>
        </>
 
 

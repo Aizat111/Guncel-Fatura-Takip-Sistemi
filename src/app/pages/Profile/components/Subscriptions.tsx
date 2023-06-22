@@ -1,8 +1,10 @@
 import {FC, useEffect, useState} from 'react'
 import { Modal } from 'react-bootstrap'
 import AccordionHeader from 'react-bootstrap/esm/AccordionHeader'
-import { useSelector } from 'react-redux'
+import { shallowEqual, useSelector } from 'react-redux'
+import { RootState } from '../../../../setup'
 import { useAppSelector } from '../../../../setup/hooks/redux'
+import { UserModel } from '../../../modules/auth/models/UserModel'
 import { Api } from '../../Services/api'
 import { AccountHeader } from '../AccountHeader'
 import { SubItem } from './SubscriptionItem'
@@ -12,11 +14,12 @@ import { SubItem } from './SubscriptionItem'
 export const Subscriptions: FC = () => {
   const [subscriptions, setSubscriptions] = useState<any>([])
   const {refresh} = useAppSelector((state)=>state.profile)
+  const loginUser: UserModel = useSelector<RootState>(({auth}) => auth.user, shallowEqual) as UserModel
   useEffect(() => {
     Api()
-    .subscriptions.subscriptions()
+    .users.user(loginUser.id)
     .then((res) => {
-      setSubscriptions(res)
+      setSubscriptions(res.subscription)
     })
   }, [refresh])
   return (

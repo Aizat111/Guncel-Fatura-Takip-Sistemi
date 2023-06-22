@@ -20,6 +20,8 @@ import {Roles} from '../pages/Roles/Roles'
 import {Users} from '../pages/Users/Users'
 import {Subscriptions} from '../pages/Profile/components/Subscriptions'
 import {UserDetail} from '../pages/Users/UserDetail'
+import { Invoices } from '../pages/AdminInvoce/Invoices'
+import { OldInvoices } from '../pages/AdminOldInvoice/OldInvoices'
 
 const PrivateRoutes = () => {
   const BuilderPageWrapper = lazy(() => import('../pages/layout-builder/BuilderPageWrapper'))
@@ -52,9 +54,11 @@ const PrivateRoutes = () => {
         <Route path='/users/*' element={<Users />} />
         <Route path='/users/detail' element={<UserDetail />} />
         <Route path='/roles/*' element={<Roles />} />
+        <Route path='/invoices/*' element={<Invoices />} />
         <Route path='/invoice/*' element={<Water />} />
         <Route path='/invoice/electric' element={<Electric />} />
         <Route path='/invoice/gas' element={<Gas />} />
+        <Route path='/old-invoices/*' element={<OldInvoices />} />
         <Route path='/old-invoice/*' element={<OldWater />} />
         <Route path='/old-invoice/electric' element={<OldElectric />} />
         <Route path='/old-invoice/gas' element={<OldGas />} />

@@ -18,7 +18,6 @@ export const Users: FC = () => {
     setShow(false)
   }
   useEffect(() => {
-    console.log(refresh)
     Api()
       .users.users()
       .then((res) => {
