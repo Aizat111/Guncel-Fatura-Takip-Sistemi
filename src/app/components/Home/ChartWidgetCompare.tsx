@@ -1,8 +1,12 @@
-import {FC, useEffect, useRef} from 'react'
+import {FC, useEffect, useRef, useState} from 'react'
 import Chart from 'react-apexcharts'
 
 import ApexCharts, {ApexOptions} from 'apexcharts'
 import { bottom } from '@popperjs/core'
+import { useSelector, shallowEqual } from 'react-redux'
+import { RootState } from '../../../setup'
+import { UserModel } from '../../modules/auth/models/UserModel'
+import { Api } from '../../pages/Services/api'
 
 
 
@@ -12,13 +16,42 @@ type Props = {
 }
 
 export const ChartsWidgetCompare: FC<Props> = ({className}) => {
+  const [widgetLabels, setWidgetLabels] = useState<any>([])
+  const [widgetData, setWidgetData] = useState<any>([])
+  const [totalCount, setTotalCount] = useState(0)
   const chartRef = useRef<HTMLDivElement | null>(null)
-
+  const [statistics, setStatistics] = useState<any>()
+  const loginUser: UserModel = useSelector<RootState>(
+    ({auth}) => auth.user,
+    shallowEqual
+  ) as UserModel
   useEffect(() => {
-
+    let subscriberNo = ''
+    loginUser.subscription.map((sub) => {
+      subscriberNo += '&subscriberNo=' + sub.subscription_no
+    })
+    Api()
+      .bills.getBillStatistic('?status=0' + subscriberNo)
+      .then((res) => {
+        prdIssueStatus(res)
+      })
   }, [])
+
+  const prdIssueStatus = (data: any) => {
+    let total = 0
+    let label = []
+    let structuredData = []
+    for (let i = 0; i < data.length; i++) {
+      total = total + data[i].total_amount
+      label.push(data[i].product)
+      structuredData.push(data[i].total_amount)
+    }
+    setWidgetData(structuredData)
+    setWidgetLabels(label)
+    setTotalCount(total)
+  }
   const chart1 = {
-    labels: ['Su','Elektrik','Gaz'],
+    labels: widgetLabels,
     dataLabels: {
       enabled: true,
   
@@ -58,29 +91,23 @@ export const ChartsWidgetCompare: FC<Props> = ({className}) => {
         <div>
      
             <div className='fs-2hx fw-bolder'>
-              1000
+             {totalCount}
               <span className='fs-2'> ₺</span>
             </div>
          
           {/* <div className='fs-2hx fw-bolder'>
                   {totalCount} <span className='fs-2'>adet</span>
                 </div> */}
-          <div className='fs-5 fw-bold text-gray-400 mb-7'>Bu Ayın Toplam Faturası</div>
+          <div className='fs-5 fw-bold text-gray-400 mb-7'>Bu Ayın Toplam Borcu</div>
         </div>
      
-        <div
       
-        >
-          <span className='btn btn-icon btn-light btn-active-color-primary mt-n2 me-n3  d-inline-flex '>
-           
-          </span>
-        </div>
       </div>
 
       <div className='d-flex justify-content-center w-100 h-100'>
         <Chart
           options={chart1}
-          series={[200,300,500]}
+          series={widgetData}
           // [data[0].total_issues,data[1].total_issues,data[2].total_issues]}
           type='donut'
           height={'320px'}

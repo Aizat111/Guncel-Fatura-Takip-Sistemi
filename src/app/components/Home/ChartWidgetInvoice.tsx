@@ -1,41 +1,70 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, {useEffect, useRef} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import ApexCharts, {ApexOptions} from 'apexcharts'
 import { getCSS, getCSSVariableValue } from '../../../_theme/assets/ts/_utils'
 import { KTSVG } from '../../../_theme/helpers'
 import { Dropdown1 } from '../../../_theme/partials'
 import { DropdownDateFilter } from './Dropdowns/DropdownDateFilter'
+import { useSelector, shallowEqual } from 'react-redux'
+import { RootState } from '../../../setup'
+import { UserModel } from '../../modules/auth/models/UserModel'
+import { Api } from '../../pages/Services/api'
 
 
 type Props = {
-  className: string
+  subscribeNo: string
   Title:string
 }
+let widgetData:any;
+const ChartsWidgetInvoice: React.FC<Props> = ({subscribeNo,Title}) => {
 
-const ChartsWidgetInvoice: React.FC<Props> = ({className,Title}) => {
   const chartRef = useRef<HTMLDivElement | null>(null)
 
+
   useEffect(() => {
-    if (!chartRef.current) {
-      return
-    }
-
-    const height = parseInt(getCSS(chartRef.current, 'height'))
-
-    const chart = new ApexCharts(chartRef.current, getChartOptions(height))
-    if (chart) {
-      chart.render()
-    }
-
-    return () => {
-      if (chart) {
-        chart.destroy()
+    Api()
+      .bills.getBillGraphic('?subscriberNo=' + subscribeNo)
+      .then((res) => {
+        prdIssueStatus(res)
+       
+      
+            const chart = new ApexCharts(chartRef.current, getChartOptions(height))
+            if (chart) {
+              chart.render()
+            }
+        
+            return () => {
+              if (chart) {
+                chart.destroy()
+              }
+            }
+          
+   
+      
+      })
+      if (!chartRef.current) {
+        return
       }
-    }
-  }, [chartRef])
+  
+      const height = parseInt(getCSS(chartRef.current, 'height'))
 
+  
+     
+  }, [])
+
+  const prdIssueStatus = (data: any) => {
+
+    let structuredData = []
+    for (let i = 0; i < data.length; i++) {
+      structuredData.push(data[i].total_amount)
+    }
+    widgetData = structuredData
+
+  }
+
+   
   return (
-    <div className={`card ${className}`}>
+    <div className={`card`}>
       {/* begin::Header */}
       <div className='card-header border-0 pt-5'>
         {/* begin::Title */}
@@ -44,24 +73,7 @@ const ChartsWidgetInvoice: React.FC<Props> = ({className,Title}) => {
 
           <span className='text-muted fw-bold fs-7'></span>
         </h3>
-        {/* end::Title */}
-
-        {/* begin::Toolbar */}
-        <div className='card-toolbar'>
-          {/* begin::Menu */}
-          <button
-            type='button'
-            className='btn btn-sm btn-icon btn-color-primary btn-active-light-primary'
-            data-kt-menu-trigger='click'
-            data-kt-menu-placement='bottom-end'
-            data-kt-menu-flip='top-end'
-          >
-            <KTSVG path='/media/icons/duotune/general/gen024.svg' className='svg-icon-2' />
-          </button>
-          <DropdownDateFilter />
-          {/* end::Menu */}
-        </div>
-        {/* end::Toolbar */}
+        
       </div>
       {/* end::Header */}
 
@@ -74,7 +86,7 @@ const ChartsWidgetInvoice: React.FC<Props> = ({className,Title}) => {
       {/* end::Body */}
     </div>
   )
-}
+  }
 
 export {ChartsWidgetInvoice}
 
@@ -88,7 +100,7 @@ function getChartOptions(height: number): ApexOptions {
     series: [
       {
         name: 'Net Profit',
-        data: [44, 55, 57, 56, 61, 58],
+        data: widgetData,
       },
 
     ],
@@ -119,7 +131,7 @@ function getChartOptions(height: number): ApexOptions {
       colors: ['transparent'],
     },
     xaxis: {
-      categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+      categories: ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz'],
       axisBorder: {
         show: false,
       },
@@ -171,7 +183,7 @@ function getChartOptions(height: number): ApexOptions {
       },
       y: {
         formatter: function (val) {
-          return '$' + val + ' thousands'
+          return + val + ' ₺'
         },
       },
     },
