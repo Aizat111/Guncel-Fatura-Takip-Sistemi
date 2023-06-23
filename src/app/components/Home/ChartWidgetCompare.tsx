@@ -27,8 +27,8 @@ export const ChartsWidgetCompare: FC<Props> = ({className}) => {
   ) as UserModel
   useEffect(() => {
     let subscriberNo = ''
-    loginUser.subscription.map((sub) => {
-      subscriberNo += '&subscriberNo=' + sub.subscription_no
+    loginUser?.subscription?.map((sub) => {
+      subscriberNo += '&subscriberNo=' + sub?.subscription_no
     })
     Api()
       .bills.getBillStatistic('?status=0' + subscriberNo)

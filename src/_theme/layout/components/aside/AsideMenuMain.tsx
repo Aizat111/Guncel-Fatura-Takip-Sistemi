@@ -74,13 +74,14 @@ export function AsideMenuMain() {
           <AsideMenuItem to='/old-invoice/gas' title='Gaz' hasBullet={true} />
         </AsideMenuItemWithSub>
       )}
-
+ {user?.roles[0]?.value != 'SUPERADMIN' &&
       <AsideMenuItem
         to='/profile'
         title='Hesabım'
         icon='/media/icons/duotune/arrows/arr001.svg'
         fontIcon='bi-person'
       />
+}
       <AsideMenuItem
         to='/cards'
         title='Cüzdan'
